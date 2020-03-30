@@ -1,7 +1,7 @@
 #!groovy?
-@Library(['jenkins/startPackagePipeline']) _
+library 'startPackagePipeline'
 
-startPackagePipelines(script: this, 
+startPackagePipeline(script: this, 
     branchMapping: [
         "develop": [path: "jenkins/develop-pipeline.groovy", releaseStart: true],
         "feature": [path: "jenkins/pull-request-pipeline.groovy"],
