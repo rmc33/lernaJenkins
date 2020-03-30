@@ -1,4 +1,4 @@
-import static org.rmc33.lernaJenkins.Utilities
+@Library('lernaJenkins') import static org.rmc33.lernaJenkins.Utilities
 
 def call(script) {
 
@@ -18,8 +18,8 @@ def call(script, config) {
                         changedPackages = findChangedPackages(steps, 'develop')
                         break
                     case "develop":
-                        def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
-                        def version = matcher[0][1].replace('-SNAPSHOT')
+                        def pomMatcher = readFile('pom.xml') =~ '<version>(.+)</version>'
+                        def version = pomMatcher[0][1].replace('-SNAPSHOT')
                         changedPackages = findChangedPackages(steps, "release/${version}")
                         break
                     default:
