@@ -7,7 +7,7 @@ def call(script) {
 def call(script, config) {
     def matcher = env.BRANCH_NAME =~ /(.*?)\//
     def changedPackages = new HashSet<String>();
-
+    echo "matcher = ${matcher}"
     if (matcher) {
         def branchName = matcher[0][1]
         node {
