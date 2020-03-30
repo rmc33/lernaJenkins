@@ -1,4 +1,4 @@
-import org.rmc33.lernajenkins.Utilities
+import org.rmc33.lernaJenkins.Utilities
 
 def call(script) {
 

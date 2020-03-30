@@ -1,4 +1,4 @@
-package org.rmc33.lernajenkins
+package org.rmc33.lernaJenkins
 
 class Utilities {
 
