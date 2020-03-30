@@ -1,0 +1,17 @@
+{
+    "npmClient": "yarn",
+    "command": {
+      "publish": {
+        "ignoreChanges": [
+          "ignored-file",
+          "*.md"
+        ]
+      },
+      "bootstrap": {}
+    },
+    "packages": [
+      "packages/*"
+    ],
+    "version": "independent"
+  }
+  
