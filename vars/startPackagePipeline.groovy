@@ -1,4 +1,4 @@
-@Library('utils') import static org.rmc33.lernaJenkins.Utilities.*
+import static org.rmc33.lernaJenkins.Utilities
 
 def call(script) {
 
@@ -23,7 +23,12 @@ def call(script, config) {
                         changedPackages = findChangedPackages(steps, "release/${version}")
                         break
                     default:
-                        changedPackages = findChangedPackages(steps, 'master')
+                        if (branchName.startsWith("PR-")) {
+                             changedPackages = findChangedPackages(steps, 'develop')
+                        }
+                        else {
+                            changedPackages = findChangedPackages(steps, 'master')
+                        }
                 }
             }
         }
