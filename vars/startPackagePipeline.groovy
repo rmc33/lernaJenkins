@@ -1,4 +1,4 @@
-@Library('lernaJenkins') import static org.rmc33.lernaJenkins.Utilities
+import static org.rmc33.lernaJenkins.Utilities
 
 def call(script) {
 
