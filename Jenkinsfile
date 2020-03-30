@@ -1,4 +1,5 @@
 #!groovy?
+echo "startPackagePipeline"
 
 startPackagePipeline(script: this, 
     branchMapping: [
