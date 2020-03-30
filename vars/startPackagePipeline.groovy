@@ -1,18 +1,18 @@
 import org.rmc33.lernaJenkins.Utilities
 
 def call(script) {
-
+    println "default..."
 }
 
 def call(script, config) {
     def matcher = env.BRANCH_NAME =~ /(.*?)\//
     def changedPackages = new HashSet<String>();
-    echo "matcher = ${matcher}"
+    println "matcher = ${matcher}..."
     if (matcher) {
         def branchName = matcher[0][1]
         node {
             stage('Find changed packages') {
-                echo ('Get changed packages for pipeline branch name=' + env.BRANCH_NAME)
+                println 'Get changed packages for pipeline branch name=' + env.BRANCH_NAME
                 switch(branchName) {
                     case "feature":
                         changedPackages = findChangedPackages(steps, 'develop')
