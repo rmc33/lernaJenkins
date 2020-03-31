@@ -9,4 +9,4 @@ startPackagePipeline(this) {
         "master": [path: "jenkins/master-pipeline.groovy"],
         "release": [path: "jenkins/release-pipeline.groovy", releaseEnd: true]
     ]
-)
+}
