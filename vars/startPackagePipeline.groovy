@@ -12,7 +12,7 @@ def call(script, closure) {
     closure.delagate = config
     closure()
 
-    println "matcher = ${matcher}..."
+    println "branch name = ${env.BRANCH_NAME}"
     if (matcher) {
         def branchName = matcher[0][1]
         node {
