@@ -4,9 +4,14 @@ def call(script) {
     println "default..."
 }
 
-def call(script, config) {
+def call(script, closure) {
+    def config = [:]
     def matcher = env.BRANCH_NAME =~ /(.*?)\//
     def changedPackages = new HashSet<String>();
+
+    closure.delagate = config
+    closure()
+
     println "matcher = ${matcher}..."
     if (matcher) {
         def branchName = matcher[0][1]
