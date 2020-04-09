@@ -23,7 +23,7 @@ def call(script, closure) {
     node {
         checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: '6ff57ef9-fbd3-43ca-9fec-24277c97785f', url: 'https://github.com/rmc33/lernaJenkins.git']]]
         println "loading class ${env.WORKSPACE}/${scriptPath}"
-        def branchScript = new GroovyShell().parse(new File("${env.WORKSPACE}/${scriptPath}")).newInstance()
+        def branchScript = new GroovyShell().parse(new File("${env.WORKSPACE}/${scriptPath}"))
         def changedPackages = branchScript.getChangedPackages(script)
         changedPackages.each { packageName ->
             branchScript.runPipeline(script, packageName)
