@@ -1,9 +1,9 @@
 
 def getChangedPackages(script) {
-    println "getChangedPackages"
+    script.echo "getChangedPackages"
     return ['webpack-demo']
 }
 
 def runPipeline(script, packageName) {
-    println "runPipeline ${packageName}"
+    script.echo "runPipeline ${packageName}"
 }
