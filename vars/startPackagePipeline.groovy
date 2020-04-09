@@ -6,49 +6,26 @@ def call(script) {
 
 def call(script, closure) {
     def config = [:]
-    def matcher = env.BRANCH_NAME =~ /(.*?)\//
-    def changedPackages = new HashSet<String>();
 
     closure.delagate = config
     closure()
 
-    println "branch name = ${env.BRANCH_NAME}"
-    if (matcher) {
-        def branchName = matcher[0][1]
-        node {
-            stage('Find changed packages') {
-                println 'Get changed packages for pipeline branch name=' + env.BRANCH_NAME
-                switch(branchName) {
-                    case "feature":
-                        changedPackages = findChangedPackages(steps, 'develop')
-                        break
-                    case "develop":
-                        def pomMatcher = readFile('pom.xml') =~ '<version>(.+)</version>'
-                        def version = pomMatcher[0][1].replace('-SNAPSHOT')
-                        changedPackages = findChangedPackages(steps, "release/${version}")
-                        break
-                    default:
-                        if (branchName.startsWith("PR-")) {
-                             changedPackages = findChangedPackages(steps, 'develop')
-                        }
-                        else {
-                            changedPackages = findChangedPackages(steps, 'master')
-                        }
-                }
-            }
-        }
-        changedPackages.each { packageName ->
-            echo "changed package = ${it}"
-            runPackagePipeline(script, branchName, packageName)
+    def scriptPath
+
+    for (e in config.branchMapping) {
+        println "branch name ${env.BRANCH_NAME}"
+        if (env.BRANCH_NAME.startsWith(e.key)) {
+            scriptPath = e.value.path
         }
     }
-}
 
-def runPackagePipeline(script, branchName, packageName) {
     node {
-        checkout scm
-        //pipeline = load config[branchName]
-        //pipeline.runPipeline(packageName)
-        echo "starting package pipeline for ${packageName}"
+        checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'APP_CREDENTIALS', url: 'https://github.com/rmc33/lernaJenkins.git']]]
+        println "loading class ${env.WORKSPACE}/${scriptPath}"
+        def branchScript = this.class.classLoader.parseClass("${env.WORKSPACE}/${scriptPath}").newInstance()
+        def changedPackages = branchScript.getChangedPackages(script)
+        changedPackages.each { packageName ->
+            branchScript.runPipeline(script, packageName)
+        }
     }
 }
