@@ -1,3 +1,5 @@
+#!groovy?
+
 def listChangedPackages(utilities, steps) {
     println "getChangedPackages"
     return utilities.listChangedPackagesGitDiff(steps, 'remotes/origin/develop')
