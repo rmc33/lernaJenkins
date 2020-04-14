@@ -1,10 +1,8 @@
-@Library('lernaJenkins') _
-import org.rmc33.lernaJenkins.Utilities
 
-def listChangedPackages(steps) {
+def listChangedPackages(utilities, steps) {
     steps.echo "getChangedPackages"
     steps.sh "yarn"
-    return listChangedPackagesLerna(steps)
+    return utilities.listChangedPackagesLerna(steps)
 }
 
 def runPipeline(script, packageName) {
