@@ -1,6 +1,8 @@
 
 def listChangedPackages(utilities, steps) {
     steps.echo "getChangedPackages"
+    steps.sh "echo $PATH"
+    steps.sh "npm install yarn"
     steps.sh "yarn"
     return utilities.listChangedPackagesLerna(steps)
 }
