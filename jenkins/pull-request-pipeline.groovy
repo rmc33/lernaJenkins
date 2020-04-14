@@ -1,10 +1,10 @@
+import org.rmc33.lernaJenkins.Utilities
 
-def getChangedPackages(script) {
+def listChangedPackages(steps) {
     println "getChangedPackages"
-    return ['webpack-demo']
+    return listChangedPackagesGitDiff(steps, 'remotes/origin/develop')
 }
 
 def runPipeline(script, packageName) {
     println "runPipeline ${packageName}"
 }
-

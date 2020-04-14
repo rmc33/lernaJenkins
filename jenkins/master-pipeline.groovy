@@ -1,7 +1,9 @@
+import org.rmc33.lernaJenkins.Utilities
 
-def getChangedPackages(script) {
-    script.echo "getChangedPackages"
-    return ['webpack-demo']
+def listChangedPackages(steps) {
+    steps.echo "getChangedPackages"
+    steps.sh "yarn"
+    return listChangedPackagesLerna(steps)
 }
 
 def runPipeline(script, packageName) {

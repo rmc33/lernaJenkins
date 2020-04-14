@@ -1,10 +1,7 @@
 import org.rmc33.lernaJenkins.Utilities
 
-def call(script) {
-    println "default..."
-}
 
-def call(script, closure) {
+def call(closure) {
     def config = [:]
 
     closure.delegate = config
@@ -24,9 +21,12 @@ def call(script, closure) {
         checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: '6ff57ef9-fbd3-43ca-9fec-24277c97785f', url: 'https://github.com/rmc33/lernaJenkins.git']]]
         println "loading class ${env.WORKSPACE}/${scriptPath}"
         def branchScript = new GroovyShell().parse(new File("${env.WORKSPACE}/${scriptPath}"))
-        def changedPackages = branchScript.getChangedPackages(script)
-        changedPackages.each { packageName ->
-            branchScript.runPipeline(script, packageName)
+        def changedPackages = branchScript.listChangedPackages(this.steps)
+
+        stage("Running pipeline for packages") {
+            changedPackages.each { packageName ->
+                branchScript.runPipeline(this, packageName)
+            }
         }
     }
 }
