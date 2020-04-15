@@ -3,8 +3,7 @@ package org.rmc33.lernaJenkins
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    steps.sh "npm install yarn"
-    steps.sh "yarn"
+    steps.sh "/usr/local/bin/yarn"
     return listChangedPackagesLerna(steps)
 }
 
