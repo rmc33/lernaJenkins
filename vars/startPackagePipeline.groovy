@@ -18,6 +18,8 @@ def call(closure) {
     }
 
     node {
+        env.NODEJS_HOME = "/usr/local"
+	    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
         stage("Running pipeline for packages") {
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
             println "loading class ${env.WORKSPACE}/${scriptPath}"
