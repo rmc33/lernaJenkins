@@ -21,7 +21,7 @@ def call(closure) {
         checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
         println "loading class ${env.WORKSPACE}/${scriptPath}"
         def pipeline = load "${env.WORKSPACE}/${scriptPath}"
-        def changedPackages = pipeline.listChangedPackages(org.rmc33.lernaJenkins.Utilities.getClass(), this)
+        def changedPackages = pipeline.listChangedPackages(this)
 
         stage("Running pipeline for packages") {
             changedPackages.each { packageName ->

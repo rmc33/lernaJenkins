@@ -1,9 +1,11 @@
 
-def listChangedPackages(utilities, steps) {
+package org.rmc33.lernaJenkins
+
+def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
     steps.sh "npm install yarn"
     steps.sh "yarn"
-    return utilities.listChangedPackagesLerna(steps)
+    return listChangedPackagesLerna(steps)
 }
 
 def runPipeline(script, packageName) {

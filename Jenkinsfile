@@ -1,5 +1,6 @@
 #!groovy?
 echo "startPackagePipeline start..."
+sh "PATH=$PATH:./node_modules/.bin/:/usr/local/bin/"
 
 startPackagePipeline {
     branchMapping = [
