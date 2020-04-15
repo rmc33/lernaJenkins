@@ -9,3 +9,4 @@ def listChangedPackages(utilities, steps) {
 def runPipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
 }
+return this;

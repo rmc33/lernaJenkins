@@ -1,4 +1,4 @@
-idef listChangedPackages(utilities, steps) {
+def listChangedPackages(utilities, steps) {
     steps.echo "getChangedPackages"
     return utilities.listChangedPackagesGitDiff(steps, 'remotes/origin/develop')
 }
@@ -6,3 +6,5 @@ idef listChangedPackages(utilities, steps) {
 def runPipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
 }
+
+return this;
