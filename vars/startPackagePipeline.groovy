@@ -9,6 +9,8 @@ def call(closure) {
     closure()
 
     def scriptPath
+    def changedPackages
+    def pipeline
 
     for (e in config.branchMapping) {
         println "branch name ${env.BRANCH_NAME}"
@@ -18,16 +20,17 @@ def call(closure) {
     }
 
     node {
-        sh "PATH=$PATH:./node_modules/.bin/:/usr/local/bin/"
-        checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
-        println "loading class ${env.WORKSPACE}/${scriptPath}"
-        def pipeline = load "${env.WORKSPACE}/${scriptPath}"
-        def changedPackages = pipeline.listChangedPackages(this)
-
         stage("Running pipeline for packages") {
-            changedPackages.each { packageName ->
-                pipeline.runPipeline(this, packageName)
+            steps {
+                sh "PATH=$PATH:./node_modules/.bin/:/usr/local/bin/"
+                checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
+                println "loading class ${env.WORKSPACE}/${scriptPath}"
+                pipeline = load "${env.WORKSPACE}/${scriptPath}"
+                changedPackages = pipeline.listChangedPackages(this)
             }
+        }
+        changedPackages.each { packageName ->
+            pipeline.runPipeline(this, packageName)
         }
     }
 }
