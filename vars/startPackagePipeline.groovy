@@ -19,6 +19,10 @@ def call(closure) {
         }
     }
 
+    environment {
+        PATH = "$PATH:/usr/local/bin:./node_modules/.bin/"
+    }
+
     node {
         stage("Running pipeline for packages") {
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
