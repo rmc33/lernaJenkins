@@ -5,7 +5,7 @@ class Utilities {
    static def listChangedPackagesGitDiff(steps, targetBranch) {
         def changedPackages = new HashSet<String>()
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
-        List<String> files = Arrays.asList(diffFilesList.split("\\r?\\n"))
+        List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         files.each { file ->
             def matcher = file =~ /packages\/(.*?)\//
             if (matcher) {
@@ -16,12 +16,12 @@ class Utilities {
     }
 
     static def listChangedPackagesLerna(steps) {
-        String changedPackages = steps.sh(script: "lerna changed", returnStdout: true)
-        return Arrays.asList(changedPackages.split("\\r?\\n"))
+        String changedPackages = steps.sh(script: "node_modules/.bin/lerna changed", returnStdout: true)
+        return Arrays.asList(changedPackages.split("\\n"))
     }
 
     static def listAllPackages(steps) {
-        String packages = steps.sh(script: "lerna list", returnStdout: true)
-        return Arrays.asList(packages.split("\\r?\\n"))
+        String packages = steps.sh(script: "node_modules/.bin/lerna list", returnStdout: true)
+        return Arrays.asList(packages.split("\\n"))
     }
 }
