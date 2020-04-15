@@ -1,5 +1,3 @@
-import org.rmc33.lernaJenkins.Utilities
-
 
 def call(closure) {
     def config = [:]
@@ -21,7 +19,6 @@ def call(closure) {
 
     node {
         stage("Running pipeline for packages") {
-            sh "export PATH=$PATH:/usr/local/bin:./node_modules/.bin"
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
             println "loading class ${env.WORKSPACE}/${scriptPath}"
             pipeline = load "${env.WORKSPACE}/${scriptPath}"
