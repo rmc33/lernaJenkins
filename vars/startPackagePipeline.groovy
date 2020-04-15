@@ -19,13 +19,9 @@ def call(closure) {
         }
     }
 
-    environment {
-        PATH = "$PATH:/usr/local/bin:./node_modules/.bin/"
-    }
-
     node {
         stage("Running pipeline for packages") {
-            echo "p=$PATH"
+            sh "export PATH=$PATH:/usr/local/bin:./node_modules/.bin"
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: 'GITHUB_ID', url: 'https://github.com/rmc33/lernaJenkins.git']]]
             println "loading class ${env.WORKSPACE}/${scriptPath}"
             pipeline = load "${env.WORKSPACE}/${scriptPath}"
