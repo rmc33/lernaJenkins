@@ -27,7 +27,7 @@ def call(closure) {
 	    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
 
         stage("Running pipeline for packages") {
-            checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: gitUrl]]]
+            checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
             println "loading class ${env.WORKSPACE}/${scriptPath}"
             pipeline = load "${env.WORKSPACE}/${scriptPath}"
             changedPackages = pipeline.listChangedPackages(this)
