@@ -4,8 +4,12 @@ def listChangedPackages(steps) {
     return org.rmc33.lernaJenkins.Utilities.listChangedPackagesGitDiff(steps, 'remotes/origin/develop')
 }
 
-def runPipeline(script, packageName) {
+def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
+}
+
+def runAfterPackagesPipeline(script) {
+
 }
 
 return this;
