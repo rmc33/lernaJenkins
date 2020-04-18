@@ -1,6 +1,6 @@
 
-@Library("lernaJenkins")
-import static org.rmc33.lernaJenkins.Utilities
+@Library("lernaJenkins") _
+import org.rmc33.lernaJenkins.Utilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
