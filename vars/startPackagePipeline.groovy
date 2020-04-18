@@ -7,7 +7,7 @@ def call(closure) {
     closure()
 
     if (!config.credentialsId || !config.gitUrl) {
-        println "credientialsId and gitUrl are required"
+        println "credientialsId, gitUrl and nodeJsHome are required"
         return
     }
 
@@ -23,8 +23,11 @@ def call(closure) {
     }
 
     node {
-        env.NODEJS_HOME = "/usr/local"
-	    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+
+        if (config.nodeJsHome) {
+            env.NODEJS_HOME = config.nodeJsHome
+            env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+        }
 
         stage("Running pipeline for packages") {
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]

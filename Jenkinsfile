@@ -11,4 +11,5 @@ startPackagePipeline {
     ]
     credentialsId = 'GITHUB_ID'
     gitUrl = 'https://github.com/rmc33/lernaJenkins.git'
+    nodeJsHome = 'usr/local'
 }
