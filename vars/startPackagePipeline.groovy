@@ -29,8 +29,6 @@ def call(closure) {
             env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
         }
 
-        println("this=" + this.getClass().getName());
-
         stage("Running pipeline for packages") {
             checkout scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
             println "loading class ${env.WORKSPACE}/${scriptPath}"
@@ -44,4 +42,5 @@ def call(closure) {
             pipeline.runAfterPackagesPipeline(this)
         }
     }
+
 }
