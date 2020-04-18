@@ -9,9 +9,9 @@ class Utilities {
         files.each { file ->
             def allPackages = listAllPackages(steps)
             allPackages.each { packageName ->
-                def matcher = file =~ /${packageName}\/(.*?)\//
+                def matcher = file =~ /${packageName}\/.*\//
                 if (matcher) {
-                    changedPackages.add(matcher[0][1])
+                    changedPackages.add(packageName)
                 }
             }
         }
