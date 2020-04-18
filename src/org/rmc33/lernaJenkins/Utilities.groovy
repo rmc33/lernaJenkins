@@ -7,9 +7,12 @@ class Utilities {
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         files.each { file ->
-            def matcher = file =~ /packages\/(.*?)\//
-            if (matcher) {
-                changedPackages.add(matcher[0][1])
+            def allPackages = listAllPackages(steps)
+            allPackages.each { packageName ->
+                def matcher = file =~ /${packageName}\/(.*?)\//
+                if (matcher) {
+                    changedPackages.add(matcher[0][1])
+                }
             }
         }
         changedPackages
