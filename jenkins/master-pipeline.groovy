@@ -3,8 +3,11 @@ import org.rmc33.lernaJenkins.Utilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    steps.sh "yarn"
     return Utilities.listChangedPackagesLerna(steps)
+}
+
+def runBeforePackagesPipeline(script) {
+    script.sh "yarn"
 }
 
 def runPackagePipeline(script, packageName) {

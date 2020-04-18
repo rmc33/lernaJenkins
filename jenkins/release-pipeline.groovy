@@ -5,6 +5,10 @@ def listChangedPackages(steps) {
     return Utilities.listChangedPackagesGitDiff(steps, "remotes/origin/master")
 }
 
+def runBeforePackagesPipeline(script) {
+
+}
+
 def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
 }
