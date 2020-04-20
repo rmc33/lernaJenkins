@@ -19,11 +19,10 @@ def call(closure) {
         println "branch name ${env.BRANCH_NAME}"
         if (env.BRANCH_NAME.startsWith(e.key)) {
             scriptPath = e.value.path
+            if (e.value.sourceBranch) {
+                branchName = e.value.sourceBranch
+            }
         }
-    }
-
-    if (config.branchName) {
-        branchName = confg.branchName
     }
 
     node {
