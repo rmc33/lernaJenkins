@@ -25,33 +25,30 @@ def call(closure) {
         }
     }
 
-    node {
+    if (config.nodeJsHome) {
+        env.NODEJS_HOME = config.nodeJsHome
+        env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
+    }
 
-        if (config.nodeJsHome) {
-            env.NODEJS_HOME = config.nodeJsHome
-            env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-        }
+    stage("Cloning repo") {
+        checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
+        println "loading repo branch pipeline ${env.WORKSPACE}/${scriptPath}"
+        pipeline = load "${env.WORKSPACE}/${scriptPath}"
+    }
 
-        stage("Cloning repo") {
-            checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
-            println "loading repo branch pipeline ${env.WORKSPACE}/${scriptPath}"
-            pipeline = load "${env.WORKSPACE}/${scriptPath}"
-        }
+    stage("Running branch pipeline before packages method") {
+        pipeline.runBeforePackagesPipeline(this)
+    }
 
-        stage("Running branch pipeline before packages method") {
-            pipeline.runBeforePackagesPipeline(this)
+    stage("Running branch pipeline method for changed packages") {
+        changedPackages = pipeline.listChangedPackages(this)
+        changedPackages.each { packageName ->
+            pipeline.runPackagePipeline(this, packageName)
         }
+    }
 
-        stage("Running branch pipeline method for changed packages") {
-            changedPackages = pipeline.listChangedPackages(this)
-            changedPackages.each { packageName ->
-                pipeline.runPackagePipeline(this, packageName)
-            }
-        }
-
-        stage("Running branch pipeline after packages method") {
-            pipeline.runAfterPackagesPipeline(this)
-        }
+    stage("Running branch pipeline after packages method") {
+        pipeline.runAfterPackagesPipeline(this)
     }
 
 }

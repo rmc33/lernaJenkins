@@ -1,7 +1,8 @@
 #!groovy?
 echo "startPackagePipeline start..."
 
-startPackagePipeline {
+node {
+    startPackagePipeline {
     branchMapping = [
         "feature": [path: "jenkins/pull-request-pipeline.groovy"],
         "develop": [path: "jenkins/develop-pipeline.groovy"],
