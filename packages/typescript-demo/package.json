@@ -1,0 +1,11 @@
+{
+  "name": "typescript-demo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc src/index.ts"
+  },
+  "dependencies": {
+    "typescript": "^3.8.3"
+  }
+}
