@@ -8,7 +8,7 @@ https://github.com/lerna/lerna
 
 Add lernaJenkins as a shared library in Jenkins where repo is built.
 
-Add Jenkinsfile and call global variable startPackagePipeline with branchMapping, gitUrl, credentialsId and nodeJsHome.
+Add Jenkinsfile and call global variable startPackagePipeline with branchMapping, gitUrl, credentialsId and nodeJsHome (optional).
 
 Create directory in lerna repo for jenkins pipelines and add branch pipeline scripts.
 
