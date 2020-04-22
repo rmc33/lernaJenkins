@@ -7,15 +7,29 @@ def listChangedPackages(steps) {
 }
 
 def runBeforePackagesPipeline(script) {
-
+    script.sh "yarn"
 }
 
 def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
+    script.dir("packages/${packageName}") {
+        //bump up package version (can also ask for user input on version number)
+        script.sh "yarn version patch"
+        script.sh "git add ."
+        script.sh "git commit -m 'updating version'"
+        script.sh "git push origin develop"
+    }
 }
 
 def runAfterPackagesPipeline(script) {
-
+    script.echo "create release after develop build"
+    //bump up repo version (can also ask for user input on version number)
+    def newVersion = script.sh (script: "yarn version patch", returnStdout: true)
+    script.sh "git add ."
+    script.sh "git commit -m 'updating version'"
+    script.sh "git push origin develop"
+    script.sh "git checkout -b release/${newVersion}"
+    script.sh "git push origin release/${newVersion}"
 }
 
 return this;
