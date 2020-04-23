@@ -5,18 +5,19 @@ class Utilities {
    static def listChangedPackagesGitDiff(steps, targetBranch) {
         def changedPackages = new HashSet<String>()
         steps.echo "command ==== git diff ${targetBranch} --name-only"
-        String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
-        List<String> files = Arrays.asList(diffFilesList.split("\\n"))
-        files.each { file ->
-            def allPackages = listAllPackages(steps)
-            allPackages.each { packageName ->
-                def matcher = file =~ /${packageName}\/.*\//
-                if (matcher) {
-                    changedPackages.add(packageName)
-                }
-            }
-        }
-        changedPackages
+        // String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
+        // List<String> files = Arrays.asList(diffFilesList.split("\\n"))
+        // files.each { file ->
+        //     def allPackages = listAllPackages(steps)
+        //     allPackages.each { packageName ->
+        //         def matcher = file =~ /${packageName}\/.*\//
+        //         if (matcher) {
+        //             changedPackages.add(packageName)
+        //         }
+        //     }
+        // }
+        // changedPackages
+        return []
     }
 
     static def listChangedPackagesLerna(steps) {
