@@ -4,7 +4,7 @@ class Utilities {
 
    static def listChangedPackagesGitDiff(steps, targetBranch) {
         def changedPackages = new HashSet<String>()
-        targetBranch.trim()
+        targetBranch = targetBranch.trim()
         steps.echo "target branch=[${targetBranch}]"
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
