@@ -14,7 +14,7 @@ def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
     script.dir("packages/${packageName}") {
         //bump up package version (can also ask for user input on version number)
-        script.sh "yarn version patch"
+        script.sh "npm version patch"
         script.sh "git add ."
         script.sh "git commit -m 'updating version'"
         script.sh "git push origin develop"
@@ -24,7 +24,7 @@ def runPackagePipeline(script, packageName) {
 def runAfterPackagesPipeline(script) {
     script.echo "create release after develop build"
     //bump up repo version (can also ask for user input on version number)
-    def newVersion = script.sh (script: "yarn version patch", returnStdout: true)
+    def newVersion = script.sh (script: "npm version patch", returnStdout: true)
     script.sh "git add ."
     script.sh "git commit -m 'updating version'"
     script.sh "git push origin develop"
