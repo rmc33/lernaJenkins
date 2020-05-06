@@ -17,7 +17,7 @@ class Utilities {
         //         }
         //     }
         // }
-        changedPackages
+        return listAllPackages(steps)
     }
 
     static def listChangedPackagesLerna(steps) {
