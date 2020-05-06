@@ -10,7 +10,7 @@ class Utilities {
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
             List<String> allPackages = listAllPackages(steps)
-            for (Strig packageName: allPackages) {
+            for (String packageName: allPackages) {
                 def matcher = file =~ /${packageName}\/.*\//
                 if (matcher) {
                     changedPackages.add(packageName)
