@@ -25,7 +25,7 @@ node {
 }
 ```
 
-Or use default script for all branches
+Or use default pipeline script for all branches
 
 ```
 node {
@@ -39,12 +39,12 @@ node {
 }
 ```
 
-* Create directory in lerna repo for jenkins pipelines and add branch pipeline script/s.
+* Create directory in lerna repo for pipeline script/s.
 
 ```
 (root)
 +- Jenkinsfile           # Jenkinsfile in repo to call startPackagePipeline
-+- jenkins               # branch pipeline scripts called by startPackagePipeline
++- jenkins               # directory for pipeline scripts called by startPackagePipeline
 |   +- develop-pipeline.groovy
 |   +- master-pipeline.groovy
 |   ...
@@ -52,9 +52,43 @@ node {
 
 ## Branch pipeline lifecycle methods
 
+When a change is made in a branch the mapped pipeline script defined in branchMapping will be loaded and the lifecycle methods will be called in the following order:
+
 * listChangedPackages
 * runBeforePackagesPipeline
 * runPackagePipeline
 * runAfterPackagesPipeline
 
+
+## Pipeline script
+
+Pipeline scripts should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.Utilities to get a list of changed packages.
+
+```
+import org.rmc33.lernaJenkins.Utilities
+
+def listChangedPackages(steps) {
+    steps.echo "getChangedPackages"
+    return Utilities.listChangedPackagesLerna(steps)
+}
+
+def runBeforePackagesPipeline(script) {
+    script.sh "yarn"
+}
+
+def runPackagePipeline(script, packageName) {
+    script.echo "runPipeline ${packageName}"
+}
+
+def runAfterPackagesPipeline(script) {
+
+}
+
+return this;
+```
+## lernaJenkins.Utilities 
+
+* listChangedPackagesGitDiff(steps, targetBranch)
+* listChangedPackagesLerna(steps)
+* listAllPackages(steps)
 
