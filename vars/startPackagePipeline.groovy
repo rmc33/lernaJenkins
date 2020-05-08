@@ -39,6 +39,7 @@ def call(closure) {
     }
 
     stage("Cloning repo") {
+        deleteDir()
         checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
         println "loading repo branch pipeline ${env.WORKSPACE}/${scriptPath}"
         pipeline = load "${env.WORKSPACE}/${scriptPath}"
