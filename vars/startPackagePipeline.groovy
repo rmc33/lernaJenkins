@@ -25,6 +25,14 @@ def call(closure) {
         }
     }
 
+    if (!scriptPath) {
+        if (!config.branchMapping.default || !config.branchMapping.default.path) {
+            println "script path not found"
+            return
+        }
+        scriptPath = config.branchMapping.default.path
+    }
+
     if (config.nodeJsHome) {
         env.NODEJS_HOME = config.nodeJsHome
         env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"

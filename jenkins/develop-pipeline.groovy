@@ -7,6 +7,8 @@ def listChangedPackages(steps) {
 }
 
 def runBeforePackagesPipeline(script) {
+    script.sh "git rev-parse --abbrev-ref HEAD"
+    script.sh "git checkout develop"
     script.sh "yarn"
 }
 
