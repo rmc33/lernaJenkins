@@ -9,7 +9,7 @@ class Utilities {
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
-            List<String> allPackages = listAllPackages(steps)
+            List<String> allPackages = listAllPackagesLerna(steps)
             for (String packageName: allPackages) {
                 def matcher = file =~ /${packageName}\/.*\//
                 if (matcher) {
@@ -25,7 +25,7 @@ class Utilities {
         return Arrays.asList(changedPackages.split("\\n"))
     }
 
-    static def listAllPackages(steps) {
+    static def listAllPackagesLerna(steps) {
         String packages = steps.sh(script: "node_modules/.bin/lerna list", returnStdout: true)
         return Arrays.asList(packages.split("\\n"))
     }
