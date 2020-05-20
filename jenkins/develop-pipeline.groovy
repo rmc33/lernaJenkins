@@ -17,8 +17,7 @@ def runPackagePipeline(script, packageName) {
         //bump up package version (can also ask for user input on version number)
         script.sh "npm version patch"
         script.sh "git add ."
-        script.sh "git commit -m 'updating version'"
-        script.sh "git push origin develop"
+        script.sh "git commit -m 'updating version' && git push origin develop"
     }
 }
 
@@ -27,8 +26,7 @@ def runAfterPackagesPipeline(script) {
     //bump up repo version (can also ask for user input on version number)
     def newVersion = script.sh (script: "npm version patch", returnStdout: true)
     script.sh "git add ."
-    script.sh "git commit -m 'updating version'"
-    script.sh "git push origin develop"
+    script.sh "git commit -m 'updating version' && git push origin develop"
     script.sh "git checkout -b release/${newVersion}"
     script.sh "git push origin release/${newVersion}"
 }
