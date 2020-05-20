@@ -6,7 +6,7 @@ def listChangedPackages(steps) {
 }
 
 def runBeforePackagesPipeline(script) {
-
+    steps.sh "yarn"
 }
 
 def runPackagePipeline(script, packageName) {
