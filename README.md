@@ -1,6 +1,6 @@
 # lernaJenkins
 
-Jenkins shared library for executing branch specific scripted pipelines for lerna (https://github.com/lerna/lerna) mono repo's.
+Jenkins shared library for executing branch specific scripted pipelines for lerna (https://github.com/lerna/lerna) mono repo.
 
 ## Getting Started
 
@@ -55,7 +55,7 @@ node {
 
 ## Branch pipeline lifecycle methods
 
-When a change is made in a branch the mapped pipeline script defined in branchMapping will be loaded and the lifecycle methods will be called in the following order:
+Lerna jenkins includes sample branch pipeline scripts. startPackagePipeline will load the pipeline script defined in branchMapping and the lifecycle methods will be called in the following order:
 
 * listChangedPackages
 * runBeforePackagesPipeline
@@ -65,7 +65,7 @@ When a change is made in a branch the mapped pipeline script defined in branchMa
 
 ## Pipeline script
 
-Pipeline scripts should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.Utilities to get a list of changed packages.
+A Pipeline script should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.Utilities or any other shared libary for use in the pipline script.
 
 Example script:
 ```
@@ -82,14 +82,21 @@ def runBeforePackagesPipeline(script) {
 
 def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
+    script.dir("packages/${packageName}") {
+        script.sh "yarn test"
+        script.sh "yarn publish"
+        script.sh "yarn deploy"
+    }
 }
 
 def runAfterPackagesPipeline(script) {
-
+    script.echo "pipeline finished successfully"
 }
 
 return this;
 ```
+
+
 ## lernaJenkins.Utilities 
 
 * listChangedPackagesGitDiff(steps, targetBranch)

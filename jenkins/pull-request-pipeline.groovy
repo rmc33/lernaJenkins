@@ -16,7 +16,7 @@ def runPackagePipeline(script, packageName) {
 }
 
 def runAfterPackagesPipeline(script) {
-    //test all packages
+    //functional test all packages
 }
 
 return this;
