@@ -17,7 +17,7 @@ def runPackagePipeline(script, packageName) {
         withCredentials([usernamePassword(credentialsId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             //bump up package version (can also ask for user input on version number)
             script.sh "npm version patch -m 'updating version'"
-            script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rmc33/lernaJenkins.git'
+            script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
         }
     }
 }
@@ -28,7 +28,7 @@ def runAfterPackagesPipeline(script) {
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', usernameVariable: 'username', passwordVariable: 'password')]){
         def newVersion = script.sh (script: "npm version patch", returnStdout: true)
         script.sh "npm version patch -m 'updating version'"
-        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@rmc33/lernaJenkins.git'
+        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
         script.sh "git checkout -b release/${newVersion}"
         script.sh "git push origin release/${newVersion}"
     }
