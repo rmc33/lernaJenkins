@@ -19,7 +19,7 @@ node {
             "release": [path: "jenkins/release-pipeline.groovy"]
         ]
         credentialsId = 'GITHUB_ID'
-        gitUrl = 'https://github.com/rmc33/lernaJenkins.git'
+        gitUrl = 'https://github.com/your git hub'
         nodeJsHome = '/usr/local'
     }
 }
@@ -34,7 +34,7 @@ node {
             "default": [path: "jenkins/pipeline.groovy"]
         ]
         credentialsId = 'GITHUB_ID'
-        gitUrl = 'https://github.com/rmc33/lernaJenkins.git'
+        gitUrl = 'https://github.com/your git hub'
     }
 }
 ```
@@ -64,6 +64,7 @@ When a change is made in a branch the mapped pipeline script defined in branchMa
 
 Pipeline scripts should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.Utilities to get a list of changed packages.
 
+Example script:
 ```
 import org.rmc33.lernaJenkins.Utilities
 
