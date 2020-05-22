@@ -11,8 +11,8 @@ class Utilities {
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
-            List<Map> allPackages = listAllPackagesLerna(steps)
-            for (java.util.LinkedHashMap package: allPackages) {
+            def allPackages = listAllPackagesLerna(steps)
+            allPackages.each { package ->
                 def matcher = file =~ /${package.name}\/.*\//
                 if (matcher) {
                     changedPackages.add(package.name)
