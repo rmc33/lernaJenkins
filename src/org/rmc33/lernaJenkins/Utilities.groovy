@@ -12,7 +12,7 @@ class Utilities {
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
             List<Map> allPackages = listAllPackagesLerna(steps)
-            for (Map package: allPackages) {
+            for (java.util.LinkedHashMap package: allPackages) {
                 def matcher = file =~ /${package.name}\/.*\//
                 if (matcher) {
                     changedPackages.add(package.name)
