@@ -17,10 +17,16 @@ def runPackagePipeline(script, packageName) {
 
 def runAfterPackagesPipeline(script) {
     //merge to master
-    withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-        script.sh "git checkout master"
-        script.sh "git merge ${env.BRANCH_NAME}"
-        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
+     userInput = input(
+        id: 'Proceed1', message: 'Was this successful?', parameters: [
+        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Build completed. Please confirm would like to merge to master']
+    ])
+    if (userInput == true) {
+        withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+            script.sh "git checkout master"
+            script.sh "git merge ${env.BRANCH_NAME}"
+            script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
+        }
     }
 }
 
