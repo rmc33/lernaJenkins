@@ -33,6 +33,7 @@ def runAfterPackagesPipeline(script) {
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
         script.sh "yarn version --no-git-tag-version --new-version patch"
         script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
+        def newVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         script.sh "git checkout -b release/${newVersion}"
         script.sh "git push origin release/${newVersion}"
     }
