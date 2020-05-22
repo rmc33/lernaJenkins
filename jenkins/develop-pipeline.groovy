@@ -1,7 +1,7 @@
 import org.rmc33.lernaJenkins.Utilities
 
 
-def     (steps) {
+def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
     def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
     return Utilities.listChangedPackagesGitDiff(steps, "remotes/origin/master") //release/${releaseVersion}")
@@ -19,7 +19,7 @@ def runPackagePipeline(script, packageName) {
     script.dir("packages/${packageName}") {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             //bump up package version (should also get user input for version number)
-            script.sh "yarn --new-version patch --no-git-tag-version"
+            script.sh "yarn --new-version patch -m 'updating version' --no-git-tag-version"
             script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
         }
     }
