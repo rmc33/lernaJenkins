@@ -1,12 +1,14 @@
 # lernaJenkins
 
-Jenkins shared library for executing branch specific scripted pipelines for lerna (https://github.com/lerna/lerna) mono repo.
+Jenkins shared library for executing branch specific scripted pipelines for lerna mono repo.
+
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 ## Getting Started
 
 * Create a new multibranch pipeline in Jenkins.
 
-* Configure pipleine and add lernaJenkins as a shared library (https://jenkins.io/doc/book/pipeline/shared-libraries/).
+* Configure pipleine and add lernaJenkins as a shared library https://jenkins.io/doc/book/pipeline/shared-libraries/.
 
 * Add Jenkinsfile to project root and call global variable startPackagePipeline with branchMapping, gitUrl, credentialsId and nodeJsHome (optional).
 
