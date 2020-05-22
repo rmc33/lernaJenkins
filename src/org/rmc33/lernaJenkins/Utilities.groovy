@@ -12,10 +12,10 @@ class Utilities {
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
             def allPackages = listAllPackagesLerna(steps)
-            allPackages.each { package ->
-                def matcher = file =~ /${package.name}\/.*\//
+            allPackages.each { p ->
+                def matcher = file =~ /${p.name}\/.*\//
                 if (matcher) {
-                    changedPackages.add(package.name)
+                    changedPackages.add(p.name)
                 }
             }
         }
