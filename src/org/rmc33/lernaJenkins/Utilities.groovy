@@ -1,5 +1,7 @@
 package org.rmc33.lernaJenkins
 
+import groovy.json.JsonSlurper
+
 class Utilities {
 
    static def listChangedPackagesGitDiff(steps, targetBranch) {
@@ -10,10 +12,10 @@ class Utilities {
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
             List<String> allPackages = listAllPackagesLerna(steps)
-            for (String packageName: allPackages) {
-                def matcher = file =~ /${packageName}\/.*\//
+            for (String package: allPackages) {
+                def matcher = file =~ /${package.name}\/.*\//
                 if (matcher) {
-                    changedPackages.add(packageName)
+                    changedPackages.add(package.name)
                 }
             }
         }
@@ -26,7 +28,9 @@ class Utilities {
     }
 
     static def listAllPackagesLerna(steps) {
-        String packages = steps.sh(script: "node_modules/.bin/lerna list", returnStdout: true)
-        return Arrays.asList(packages.split("\\n"))
+        String jsonPackages = steps.sh(script: "node_modules/.bin/lerna list --json", returnStdout: true)
+        def jsonSlurper = new JsonSlurper()
+        def packages = jsonSlurper.parseText(jsonPackages)
+        return packages
     }
 }
