@@ -4,7 +4,9 @@ Jenkins shared library for executing branch specific scripted pipelines for lern
 
 ## Getting Started
 
-* Add lernaJenkins as a shared library (https://jenkins.io/doc/book/pipeline/shared-libraries/) in Jenkins.
+* Create a new multibranch pipeline in Jenkins.
+
+* Configure pipleine and add lernaJenkins as a shared library (https://jenkins.io/doc/book/pipeline/shared-libraries/).
 
 * Add Jenkinsfile to project root and call global variable startPackagePipeline with branchMapping, gitUrl, credentialsId and nodeJsHome (optional).
 
@@ -49,6 +51,7 @@ node {
 |   +- master-pipeline.groovy
 |   ...
 ```
+
 
 ## Branch pipeline lifecycle methods
 
