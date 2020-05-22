@@ -1,7 +1,7 @@
 import org.rmc33.lernaJenkins.Utilities
 
 
-def listChangedPackages(steps) {
+def     (steps) {
     steps.echo "getChangedPackages"
     def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
     return Utilities.listChangedPackagesGitDiff(steps, "remotes/origin/master") //release/${releaseVersion}")
@@ -15,10 +15,11 @@ def runBeforePackagesPipeline(script) {
 def runPackagePipeline(script, packageName) {
     script.echo "runPipeline ${packageName}"
     script.sh "yarn config set version-tag-prefix ''"
+    script.sh "yarn config set version-git-message 'updating version'"
     script.dir("packages/${packageName}") {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             //bump up package version (should also get user input for version number)
-            script.sh "yarn --new-version patch -m 'updating version' --no-git-tag-version"
+            script.sh "yarn --new-version patch --no-git-tag-version"
             script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
         }
     }
@@ -27,9 +28,10 @@ def runPackagePipeline(script, packageName) {
 def runAfterPackagesPipeline(script) {
     script.echo "create release after develop build"
     script.sh "yarn config set version-tag-prefix ''"
+    script.sh "yarn config set version-git-message 'updating version'"
     //bump up repo version (should also get user input for version number)
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-        script.sh "yarn --new-version patch -m 'updating version' --no-git-tag-version"
+        script.sh "yarn --new-version patch --no-git-tag-version"
         script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
         script.sh "git checkout -b release/${newVersion}"
         script.sh "git push origin release/${newVersion}"
