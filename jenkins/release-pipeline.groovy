@@ -1,8 +1,8 @@
-import org.rmc33.lernaJenkins.Utilities
+import org.rmc33.lernaJenkins.LernaUtilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    return Utilities.listChangedPackagesGitDiff(steps, "remotes/origin/master")
+    return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
 }
 
 def runBeforePackagesPipeline(script) {
@@ -17,10 +17,6 @@ def runPackagePipeline(script, packageName) {
 
 def runAfterPackagesPipeline(script) {
     //merge to master
-     userInput = input(
-        id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Build completed. Please confirm would like to merge to master']
-    ])
     if (userInput == true) {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             script.sh "git checkout master"

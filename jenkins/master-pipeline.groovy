@@ -1,9 +1,9 @@
 
-import org.rmc33.lernaJenkins.Utilities
+import org.rmc33.lernaJenkins.LernaUtilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    return Utilities.listChangedPackagesLerna(steps)
+    return Utilities.listChangedPackages(steps)
 }
 
 def runBeforePackagesPipeline(script) {

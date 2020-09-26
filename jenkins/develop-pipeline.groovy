@@ -1,10 +1,10 @@
-import org.rmc33.lernaJenkins.Utilities
+import org.rmc33.lernaJenkins.LernaUtilities
 
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
     def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
-    return Utilities.listChangedPackagesGitDiff(steps, "remotes/origin/master") //release/${releaseVersion}")
+    return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
 }
 
 def runBeforePackagesPipeline(script) {

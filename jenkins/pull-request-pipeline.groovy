@@ -1,8 +1,8 @@
-import org.rmc33.lernaJenkins.Utilities
+import org.rmc33.lernaJenkins.LernaUtilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    return Utilities.listChangedPackagesGitDiff(steps, 'remotes/origin/develop')
+    return LernaUtilities.listChangedPackagesSince(steps, 'remotes/origin/develop')
 }
 
 def runBeforePackagesPipeline(script) {
