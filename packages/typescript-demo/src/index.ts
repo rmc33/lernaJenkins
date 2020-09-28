@@ -42,6 +42,7 @@ class Vendor {
   
   interface Eatable {
     isCrunchy: () => boolean;
+    isFluffy: () => boolean;
   }
   // Correctly passing in two arguments will let you create a
   // new instance of the FoodTruck:
