@@ -11,7 +11,7 @@ class GitUtilities {
         String diffFilesList = steps.sh(script: "git diff ${targetBranch} --name-only", returnStdout: true)
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
         for(String file: files) {
-            def allPackages = listAllPackagesLerna(steps)
+            def allPackages = LernaUtilities.listAllPackages(steps)
             allPackages.each { p ->
                 def matcher = file =~ /${p.name}\/.*\//
                 if (matcher) {

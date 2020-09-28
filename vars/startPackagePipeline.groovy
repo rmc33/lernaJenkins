@@ -46,18 +46,18 @@ def call(closure) {
     }
 
     stage("Running branch pipeline before packages method") {
-        pipeline.runBeforePackagesPipeline(this)
+        pipeline.runBeforePackagesPipeline(this, config)
     }
 
     stage("Running branch pipeline method for changed packages") {
-        changedPackages = pipeline.listChangedPackages(this)
+        changedPackages = pipeline.listChangedPackages(this, config)
         changedPackages.each { packageName ->
-            pipeline.runPackagePipeline(this, packageName)
+            pipeline.runPackagePipeline(this, packageName, config)
         }
     }
 
     stage("Running branch pipeline after packages method") {
-        pipeline.runAfterPackagesPipeline(this)
+        pipeline.runAfterPackagesPipeline(this, config)
     }
 
 }

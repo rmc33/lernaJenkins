@@ -1,18 +1,18 @@
 import org.rmc33.lernaJenkins.LernaUtilities
 
 
-def listChangedPackages(steps) {
+def listChangedPackages(steps, config) {
     steps.echo "getChangedPackages"
     def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
     return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
 }
 
-def runBeforePackagesPipeline(script) {
+def runBeforePackagesPipeline(script, config) {
     script.sh "git checkout develop"
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageName) {
+def runPackagePipeline(script, packageName, config) {
     script.echo "runPipeline ${packageName}"
     script.sh "yarn config set version-tag-prefix ''"
     script.sh "yarn config set version-git-message 'updating version'"
@@ -25,7 +25,7 @@ def runPackagePipeline(script, packageName) {
     }
 }
 
-def runAfterPackagesPipeline(script) {
+def runAfterPackagesPipeline(script, config) {
     script.echo "create release after develop build"
     script.sh "yarn config set version-tag-prefix ''"
     script.sh "yarn config set version-git-message 'updating version'"

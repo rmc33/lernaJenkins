@@ -1,15 +1,15 @@
 import org.rmc33.lernaJenkins.LernaUtilities
 
-def listChangedPackages(steps) {
+def listChangedPackages(steps, config) {
     steps.echo "getChangedPackages"
     return LernaUtilities.listChangedPackagesSince(steps, 'remotes/origin/develop')
 }
 
-def runBeforePackagesPipeline(script) {
+def runBeforePackagesPipeline(script, config) {
     steps.sh "yarn"
 }
 
-def runPackagePipeline(script, packageName) {
+def runPackagePipeline(script, packageName, config) {
     script.echo "runPipeline ${packageName}"
     //scan package
     //test package
