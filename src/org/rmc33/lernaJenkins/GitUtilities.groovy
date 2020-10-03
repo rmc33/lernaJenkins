@@ -23,7 +23,7 @@ class GitUtilities {
 
         def noTagFlag = ''
 
-        if (tagConfig !== null) {
+        if (tagConfig) {
             tagConfig.gitTagVersion ? '' : '--no-git-tag-version'
             if (tagConfig.versionTagPrefix) {
                 script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
