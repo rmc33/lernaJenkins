@@ -1,3 +1,5 @@
+package org.rmc33.lernaJenkins
+
 import groovy.json.JsonSlurper
 
 class GitUtilities {
