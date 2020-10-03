@@ -32,8 +32,10 @@ def runAfterPackagesPipeline(script, config) {
     //bump up repo version get user input for version number
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
         var newVersion = GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", false)
-        script.sh "git checkout -b release/${newVersion}"
-        script.sh "git push origin release/${newVersion}"
+        if (newVersion) {
+            script.sh "git checkout -b release/${newVersion}"
+            script.sh "git push origin release/${newVersion}"
+        }
     }
 }
 
