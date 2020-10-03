@@ -18,7 +18,8 @@ def runPackagePipeline(script, packageProperties, config) {
 
 def runAfterPackagesPipeline(script, config) {
     //merge to master
-    if (userInput == true) {
+    def approveMerge = script.input message: 'Approve Merge to maser?', ok: 'Yes'
+    if (approveMerge == 'Yes') {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             script.sh "git checkout master"
             script.sh "git merge ${env.BRANCH_NAME}"
