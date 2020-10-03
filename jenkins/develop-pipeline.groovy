@@ -31,7 +31,7 @@ def runAfterPackagesPipeline(script, config) {
     script.sh "yarn config set version-git-message 'updating version'"
     //bump up repo version get user input for version number
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-        var newVersion = GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", false)
+        def newVersion = GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", false)
         if (newVersion) {
             script.sh "git checkout -b release/${newVersion}"
             script.sh "git push origin release/${newVersion}"
