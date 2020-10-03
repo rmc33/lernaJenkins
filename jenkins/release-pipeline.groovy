@@ -18,13 +18,11 @@ def runPackagePipeline(script, packageProperties, config) {
 
 def runAfterPackagesPipeline(script, config) {
     //merge to master
-    def approveMerge = script.input message: 'Approve Merge to maser?', ok: 'Yes'
-    if (approveMerge == 'Yes') {
-        withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-            script.sh "git checkout master"
-            script.sh "git merge ${env.BRANCH_NAME}"
-            script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
-        }
+    script.input message: 'Approve Merge to maser?', ok: 'Yes'
+    withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+        script.sh "git checkout master"
+        script.sh "git merge ${env.BRANCH_NAME}"
+        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
     }
 }
 
