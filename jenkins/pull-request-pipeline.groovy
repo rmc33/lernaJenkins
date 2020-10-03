@@ -10,8 +10,7 @@ def runBeforePackagesPipeline(script, config) {
 }
 
 def runPackagePipeline(script, packageProperties, config) {
-    def packageName = packageProperties.name
-    script.echo "runPipeline ${packageName}"
+    script.echo "runPipeline ${packageProperties.name}"
     //scan package
     //test package
 }
