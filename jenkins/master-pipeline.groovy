@@ -11,7 +11,8 @@ def runBeforePackagesPipeline(script, config) {
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageName, config) {
+def runPackagePipeline(script, packageProperties, config) {
+    def packageName = packageProperties.name
     script.echo "runPipeline ${packageName}"
     script.dir("packages/${packageName}") {
         def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)

@@ -9,7 +9,8 @@ def runBeforePackagesPipeline(script, config) {
     steps.sh "yarn"
 }
 
-def runPackagePipeline(script, packageName, config) {
+def runPackagePipeline(script, packageProperties, config) {
+    def packageName = packageProperties.name
     script.echo "runPipeline ${packageName}"
     //scan package
     //test package

@@ -51,8 +51,8 @@ def call(closure) {
 
     stage("Running branch pipeline method for changed packages") {
         changedPackages = pipeline.listChangedPackages(this, config)
-        changedPackages.each { packageName ->
-            pipeline.runPackagePipeline(this, packageName, config)
+        changedPackages.each { p ->
+            pipeline.runPackagePipeline(this, p, config)
         }
     }
 
