@@ -14,10 +14,10 @@ class GitUtilities {
     static def releaseVersion(script, pushUrl, tagNewVersion) {
         def version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         def name = script.sh (script: "node -p -e \"require('./package.json').name\"", returnStdout: true)
-        env.RELEASE_VERSION = script.input message: "Current version for ${name} is ${version}. User input required', ok: 'Release!",
+        def RELEASE_VERSION = script.input message: "Current version for ${name} is ${version}. User input required', ok: 'Release!",
                 parameters: [choice(name: 'RELEASE_VERSION', choices: 'patch\nminor\nmajor', description: 'What is the release version?')]
         def noTagFlag = tagNewVersion ? '' : '--no-git-tag-version'
-        script.sh "yarn version {$noTagFlag} --new-version ${env.RELEASE_VERSION}"
+        script.sh "yarn version {$noTagFlag} --new-version ${RELEASE_VERSION}"
         script.sh "git push ${pushUrl}"
         version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         echo "new version is ${version}"
