@@ -1,6 +1,5 @@
 package org.rmc33.lernaJenkins
 
-import java.io.Serializable
 
 class Package implements Serializable {
 
