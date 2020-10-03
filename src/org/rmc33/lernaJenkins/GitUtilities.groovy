@@ -19,7 +19,6 @@ class GitUtilities {
         def RELEASE_VERSION = script.input message: "Current version for ${name} is ${version}. Cut Release:",
                 parameters: [script.choice(name: 'RELEASE_VERSION', choices: 'patch\nminor\nmajor\nskip', description: 'What is the release version?')]
 
-
         if (RELEASE_VERSION == 'skip') return false
 
         def noTagFlag = ''
@@ -29,7 +28,7 @@ class GitUtilities {
             if (tagConfig.versionTagPrefix) {
                 script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
             }
-            if (versionGitMessage) {
+            if (tagConfig.versionGitMesage) {
                 script.sh "yarn config set version-git-message '${tagConfig.versionGitMesage}'"
             }
         }
