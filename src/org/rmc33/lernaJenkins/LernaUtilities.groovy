@@ -22,7 +22,7 @@ class LernaUtilities {
     static def listAllPackages(steps) {
         String jsonPackages = steps.sh(script: "node_modules/.bin/lerna list --json", returnStdout: true)
         def jsonSlurper = new JsonSlurper()
-        def jsonObjects = jsonSlurper.parseText(changedPackages)
+        def jsonObjects = jsonSlurper.parseText(jsonPackages)
         return createPackageList(jsonObjects)
     }
 
