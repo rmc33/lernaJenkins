@@ -6,17 +6,20 @@ class LernaUtilities {
 
     static def listChangedPackages(steps) {
         String changedPackages = steps.sh(script: "node_modules/.bin/lerna changed --json", returnStdout: true)
-        return new JsonSlurper().parseText(jsonPackages)
+        def jsonSlurper = new JsonSlurper()
+        return jsonSlurper.parseText(changedPackages)
     }
 
     static def listChangedPackagesSince(steps, fromBranch) {
         String changedPackages = steps.sh(script: "node_modules/.bin/lerna ls --since ${fromBranch} --json", returnStdout: true)
-        return new JsonSlurper().parseText(jsonPackages)
+        def jsonSlurper = new JsonSlurper()
+        return jsonSlurper.parseText(changedPackages)
     }
 
     static def listAllPackages(steps) {
         String jsonPackages = steps.sh(script: "node_modules/.bin/lerna list --json", returnStdout: true)
-        return new JsonSlurper().parseText(jsonPackages)
+        def jsonSlurper = new JsonSlurper()
+        return jsonSlurper.parseText(jsonPackages)
     }
 
     private static def r
