@@ -1,7 +1,8 @@
 import org.rmc33.lernaJenkins.LernaUtilities
 import org.rmc33.lernaJenkins.GitUtilities
 
-def listChangedPackages(steps, config) {
+
+def listChangedPackages(script, config) {
     steps.echo "getChangedPackages"
     return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
 }
