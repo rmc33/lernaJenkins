@@ -1,17 +1,18 @@
 import org.rmc33.lernaJenkins.*
 
 class DevelopPipeline implements LernaPipeline {
-    def listChangedPackages(steps, config) {
+
+    public List<Package> listChangedPackages(steps, config) {
         steps.echo "getChangedPackages"
         return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
     }
 
-    def runBeforePackagesPipeline(script, config) {
+    public void runBeforePackagesPipeline(script, config) {
         script.sh "git checkout develop"
         script.sh "yarn"
     }
 
-    def runPackagePipeline(script, packageProperties, config) {
+    public void runPackagePipeline(script, packageProperties, config) {
         script.echo "runPipeline ${packageProperties.name}"
         script.dir("${packageProperties.location}") {
             withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
@@ -21,7 +22,7 @@ class DevelopPipeline implements LernaPipeline {
         }
     }
 
-    def runAfterPackagesPipeline(script, config) {
+    public void runAfterPackagesPipeline(script, config) {
         script.echo "create release after develop build"
         //bump up repo version get user input for version number
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
