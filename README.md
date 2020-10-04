@@ -8,7 +8,7 @@ Jenkins shared library for executing branch specific scripted pipelines for lern
 
 * Create a new multibranch pipeline in Jenkins.
 
-* Configure pipleine and add lernaJenkins as a shared library https://jenkins.io/doc/book/pipeline/shared-libraries/.
+* Configure pipeline and add lernaJenkins as a shared library https://jenkins.io/doc/book/pipeline/shared-libraries/.
 
 * Add Jenkinsfile to project root and call global variable startPackagePipeline with branchMapping, gitUrl, credentialsId and nodeJsHome (optional).
 
@@ -67,24 +67,24 @@ Lerna jenkins includes sample branch pipeline scripts. startPackagePipeline will
 
 ## Pipeline script
 
-A Pipeline script should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.Utilities or any other shared libary for use in the pipline script.
+A Pipeline script should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.LernaUtilities or any other shared library for use in the pipeline script.
 
 Example script:
 ```
-import org.rmc33.lernaJenkins.Utilities
+import org.rmc33.lernaJenkins.LernaUtilities
 
 def listChangedPackages(steps) {
     steps.echo "getChangedPackages"
-    return Utilities.listChangedPackagesLerna(steps)
+    return LernaUtilities.listChangedPackages(steps)
 }
 
 def runBeforePackagesPipeline(script) {
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageName) {
-    script.echo "runPipeline ${packageName}"
-    script.dir("packages/${packageName}") {
+def runPackagePipeline(script, packageProperties) {
+    script.echo "runPipeline ${packageProperties.name}"
+    script.dir("${packageProperties.location}") {
         script.sh "yarn test"
         script.sh "yarn publish"
         script.sh "yarn deploy"
