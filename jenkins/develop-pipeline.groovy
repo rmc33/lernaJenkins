@@ -2,6 +2,8 @@ import org.rmc33.lernaJenkins.*
 
 class DevelopPipeline implements LernaPipeline {
 
+    public DevelopPipeline () {}
+
     public List<Package> listChangedPackages(steps, config) {
         steps.echo "getChangedPackages"
         return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
