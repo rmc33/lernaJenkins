@@ -3,7 +3,7 @@ import org.rmc33.lernaJenkins.LernaUtilities
 
 def listChangedPackages(steps, config) {
     steps.echo "getChangedPackages"
-    return Utilities.listChangedPackages(steps)
+    return LernaUtilities.listChangedPackages(steps)
 }
 
 def runBeforePackagesPipeline(script, config) {
@@ -21,7 +21,6 @@ def runPackagePipeline(script, packageProperties, config) {
 }
 
 def runAfterPackagesPipeline(script, config) {
-    //lerna publish and deploy to prod
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
         def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         script.sh "git tag $releaseVersion"
