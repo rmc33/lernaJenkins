@@ -17,7 +17,7 @@ def runPackagePipeline(script, packageProperties, config) {
     script.dir("${packageProperties.location}") {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
             //bump up package version (should also get user input for version number)
-            GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", null)
+            GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", [gitTagVersion: false, versionTagPrefix: ""])
         }
     }
 }

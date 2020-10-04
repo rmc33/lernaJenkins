@@ -14,10 +14,6 @@ def runBeforePackagesPipeline(script, config) {
 def runPackagePipeline(script, packageProperties, config) {
     def packageName = packageProperties.name
     script.echo "runPipeline ${packageName}"
-    script.dir("${packageProperties.location}") {
-        def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
-        script.sh "git tag ${packageName}@${releaseVersion}"
-    }
 }
 
 def runAfterPackagesPipeline(script, config) {
