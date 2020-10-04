@@ -12,7 +12,7 @@ class DevelopPipeline implements LernaPipeline {
         script.sh "yarn"
     }
 
-    public void runPackagePipeline(script, packageProperties, config) {
+    public void runPackagePipeline(script, Package packageProperties, config) {
         script.echo "runPipeline ${packageProperties.name}"
         script.dir("${packageProperties.location}") {
             withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
