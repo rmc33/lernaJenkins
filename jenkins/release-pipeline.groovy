@@ -19,9 +19,9 @@ def runAfterPackagesPipeline(script, config) {
     //merge to master
     script.input message: 'Approve Merge to maser?', ok: 'Yes'
     withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-        script.sh "git checkout remotes/origin/master"
+        script.sh "git checkout origin/master"
         script.sh "git merge remotes/origin/${env.BRANCH_NAME}"
-        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git'
+        script.sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git origin master'
     }
 }
 
