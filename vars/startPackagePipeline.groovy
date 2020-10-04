@@ -1,10 +1,10 @@
-package org.rmc33.lernaJenkins.LernaPipeline
+
 
 def call(closure) {
     def config = [:]
     def scriptPath
     def changedPackages
-    LernaPipeline pipeline
+    org.rmc33.lernaJenkins.LernaPipeline.LernaPipeline pipeline
     def branchName = env.BRANCH_NAME
 
     closure.delegate = config
