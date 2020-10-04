@@ -12,7 +12,7 @@ def runBeforePackagesPipeline(script, config) {
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, Package packageProperties, config) {
+def runPackagePipeline(script, packageProperties, config) {
     script.echo "runPipeline ${packageProperties.name}"
     script.dir("${packageProperties.location}") {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
