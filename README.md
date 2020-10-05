@@ -59,7 +59,6 @@ node {
 
 Lerna jenkins includes sample branch pipeline scripts. startPackagePipeline will load the pipeline script defined in branchMapping and the lifecycle methods will be called in the following order:
 
-* listChangedPackages
 * runBeforePackagesPipeline
 * runPackagePipeline
 * runAfterPackagesPipeline
@@ -73,10 +72,6 @@ Example script:
 ```
 import org.rmc33.lernaJenkins.LernaUtilities
 
-def listChangedPackages(steps) {
-    steps.echo "getChangedPackages"
-    return LernaUtilities.listChangedPackages(steps)
-}
 
 def runBeforePackagesPipeline(script) {
     script.sh "yarn"
@@ -97,11 +92,4 @@ def runAfterPackagesPipeline(script) {
 
 return this;
 ```
-
-
-## lernaJenkins.Utilities 
-
-* listChangedPackagesGitDiff(steps, targetBranch)
-* listChangedPackagesLerna(steps)
-* listAllPackages(steps)
 

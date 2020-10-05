@@ -5,7 +5,7 @@ def listChangedPackages(steps, branchConfig) {
     if (branchConfig.listAll) {
         return LernaUtilities.listAllPackages(steps)
     }
-    return LernaUtilities.listChangedPackages(steps, branchConfig.sinceBranch)
+    return LernaUtilities.listChangedPackages(steps, branchConfig.since)
 }
 
 def call(closure) {
