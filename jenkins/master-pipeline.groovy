@@ -1,10 +1,4 @@
 
-import org.rmc33.lernaJenkins.LernaUtilities
-
-def listChangedPackages(steps, config) {
-    steps.echo "getChangedPackages"
-    return LernaUtilities.listChangedPackages(steps)
-}
 
 def runBeforePackagesPipeline(script, config) {
     script.sh "git checkout master"

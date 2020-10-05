@@ -1,11 +1,5 @@
-import org.rmc33.lernaJenkins.LernaUtilities
 import org.rmc33.lernaJenkins.GitUtilities
 
-
-def listChangedPackages(script, config) {
-    steps.echo "getChangedPackages"
-    return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
-}
 
 def runBeforePackagesPipeline(script, config) {
     script.sh "git checkout develop"
@@ -16,7 +10,7 @@ def runPackagePipeline(script, packageProperties, config) {
     script.echo "runPipeline ${packageProperties.name}"
     script.dir("${packageProperties.location}") {
         withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-            //bump up package version (should also get user input for version number)
+            //bump up package version and tag (should also get user input for version number)
             GitUtilities.releaseVersion(script, "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rmc33/lernaJenkins.git", [gitTagVersion: false, versionTagPrefix: ""])
         }
     }
