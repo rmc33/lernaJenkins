@@ -14,7 +14,7 @@ Jenkins shared library for executing branch specific scripted pipelines for lern
 
 ```
 node {
-    startPackagePipeline {
+    startLernaPipeline {
         branchMapping = [
             "feature": [path: "jenkins/pull-request-pipeline.groovy"],
             "develop": [path: "jenkins/develop-pipeline.groovy"],
@@ -33,7 +33,7 @@ Or use default pipeline script for all branches
 
 ```
 node {
-    startPackagePipeline {
+   startLernaPipeline {
         branchMapping = [
             "default": [path: "jenkins/pipeline.groovy"]
         ]
