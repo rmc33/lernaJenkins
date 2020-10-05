@@ -1,10 +1,17 @@
-
+def listChangedPackages(steps, branchConfig) {
+    steps.echo "getChangedPackages"
+    if (branchConfig.listAll) {
+        return LernaUtilities.listAllPackages(steps)
+    }
+    return LernaUtilities.listChangedPackages(steps, branchConfig.sinceBranch)
+}
 
 def call(closure) {
     def config = [:]
     def scriptPath
     def changedPackages
     def pipeline
+    def branchConfig
     def branchName = env.BRANCH_NAME
 
     closure.delegate = config
@@ -19,6 +26,7 @@ def call(closure) {
     for (e in config.branchMapping) {
         println "branch name ${env.BRANCH_NAME}"
         if (env.BRANCH_NAME.startsWith(e.key)) {
+            branchConfig = e.value
             scriptPath = e.value.path
             if (e.value.sourceBranch) {
                 branchName = e.value.sourceBranch
@@ -47,18 +55,18 @@ def call(closure) {
     }
 
     stage("Running branch pipeline before packages method") {
-        pipeline.runBeforePackagesPipeline(this, config)
+        pipeline.runBeforePackagesPipeline(this, branchConfig)
     }
 
     stage("Running branch pipeline method for changed packages") {
-        changedPackages = pipeline.listChangedPackages(this, config)
+        changedPackages = listChangedPackages(this, branchConfig)
         changedPackages.each { p ->
-            pipeline.runPackagePipeline(this, p, config)
+            pipeline.runPackagePipeline(this, p, branchConfig)
         }
     }
 
     stage("Running branch pipeline after packages method") {
-        pipeline.runAfterPackagesPipeline(this, config)
+        pipeline.runAfterPackagesPipeline(this, branchConfig)
     }
 
 }

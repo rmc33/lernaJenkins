@@ -1,9 +1,3 @@
-import org.rmc33.lernaJenkins.LernaUtilities
-
-def listChangedPackages(steps, config) {
-    steps.echo "getChangedPackages"
-    return LernaUtilities.listChangedPackagesSince(steps, "remotes/origin/master")
-}
 
 def runBeforePackagesPipeline(script, config) {
     steps.sh "yarn"
