@@ -1,3 +1,5 @@
+import org.rmc33.lernaJenkins.LernaUtilities
+
 def listChangedPackages(steps, branchConfig) {
     steps.echo "getChangedPackages"
     if (branchConfig.listAll) {
