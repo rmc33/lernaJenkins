@@ -11,7 +11,7 @@ node {
             "release": [path: "jenkins-pipelines/release-pipeline.groovy", since: "remotes/origin/master"]
         ]
         credentialsId = 'GITHUB_ID'
-        config.credentialsPw = 'GIT_PASSWORD'
+        credentialsPw = 'GIT_PASSWORD'
         credentialsUser = 'GIT_USERNAME'
         gitUrl = 'https://github.com/rmc33/lernaJenkins.git'
         nodeJsHome = '/usr/local'
