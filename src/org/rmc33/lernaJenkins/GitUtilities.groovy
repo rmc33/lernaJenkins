@@ -33,7 +33,7 @@ class GitUtilities {
         }
 
         script.sh "yarn version {$noTagFlag} --new-version ${RELEASE_VERSION}"
-        script.sh "git push ${pushUrl}"
+        script.sh "git push origin"
         version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         script.echo "new version is ${version}"
         return version
