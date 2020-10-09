@@ -31,7 +31,7 @@ Or use default pipeline script for all branches
 
 ```
 node {
-    startLernaPipeline {
+    startLernaPipeline
         branchMapping = [
             "default": [path: "jenkins/pipeline.groovy"]
         ]
