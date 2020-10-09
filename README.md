@@ -2,8 +2,6 @@
 
 Jenkins shared library for executing branch specific scripted pipelines for lerna mono repo.
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
-
 ## Getting Started
 
 * Create a new multibranch pipeline in Jenkins.
@@ -33,7 +31,7 @@ Or use default pipeline script for all branches
 
 ```
 node {
-   startLernaPipeline {
+    startLernaPipeline
         branchMapping = [
             "default": [path: "jenkins/pipeline.groovy"]
         ]
@@ -43,12 +41,20 @@ node {
 }
 ```
 
+* branchMapping is a Map with keys representing a string to match the beginning of the branch name. The values should be an object with the following properties:
+
+```
+path - the path to the pipeline script (required)
+since - the branch to compare with to determine changed packages. Translates to running the lerna ls -since $since command. Leaving this out will result in using the lerna changed command. (optional)
+listAll - indicates that all packages should be listed when determining changed packages. (optional)
+```
+
 * Create directory in lerna repo for pipeline script/s.
 
 ```
 (root)
 +- Jenkinsfile           # Jenkinsfile in repo to call startPackagePipeline
-+- jenkins               # directory for pipeline scripts called by startPackagePipeline
++- jenkins-pipelines               # directory for pipeline scripts called by startLernaPipeline
 |   +- develop-pipeline.groovy
 |   +- master-pipeline.groovy
 |   ...
@@ -57,39 +63,39 @@ node {
 
 ## Branch pipeline lifecycle methods
 
-Lerna jenkins includes sample branch pipeline scripts. startPackagePipeline will load the pipeline script defined in branchMapping and the lifecycle methods will be called in the following order:
+lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order:
 
-* runBeforePackagesPipeline
-* runPackagePipeline
-* runAfterPackagesPipeline
+* runBeforePackagesPipeline - runs at workspace directory before getting changed packages
+* runPackagePipeline - runs at package location directory for each changed package
+* runAfterPackagesPipeline - runs at workspace directory after all changed packages have completed
 
 
 ## Pipeline script
 
-A Pipeline script should implement the lifecycle methods and end with a return this. You may import the lernaJenkins.LernaUtilities or any other shared library for use in the pipeline script.
+A Pipeline script should implement the lifecycle methods and end with a return this. You may import any of the org.rmc33.lernaJenkins or other shared library for use in the pipeline.
 
-Example script:
+Example pipeline:
+
 ```
-import org.rmc33.lernaJenkins.LernaUtilities
 
-
-def runBeforePackagesPipeline(script) {
+def runBeforePackagesPipeline(script, branchConfig, config) {
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties) {
+def runPackagePipeline(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
-    script.dir("${packageProperties.location}") {
-        script.sh "yarn test"
-        script.sh "yarn publish"
-        script.sh "yarn deploy"
-    }
+    script.sh "yarn test"
+    GitUtilities.releaseVersion(script, config.credentialsId)
+    script.sh "yarn publish"
+    script.sh "yarn deploy"
 }
 
-def runAfterPackagesPipeline(script) {
+def runAfterPackagesPipeline(script, branchConfig, config) {
     script.echo "pipeline finished successfully"
 }
 
 return this;
 ```
 
+
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
