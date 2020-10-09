@@ -2,8 +2,6 @@
 
 Jenkins shared library for executing branch specific scripted pipelines for lerna mono repo.
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
-
 ## Getting Started
 
 * Create a new multibranch pipeline in Jenkins.
@@ -92,4 +90,6 @@ def runAfterPackagesPipeline(script) {
 
 return this;
 ```
+
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
