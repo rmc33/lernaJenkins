@@ -14,7 +14,7 @@ def runPackagePipeline(script, packageProperties, branchConfig, config) {
 def runAfterPackagesPipeline(script, branchConfig, config) {
     script.echo "create release after develop build"
     //bump up repo version get user input for version number
-    def newVersion = GitUtilities.releaseVersion(script, config.credentialsId)
+    def newVersion = GitUtilities.releaseVersion(script, config.credentialsId, null)
     if (newVersion) {
         script.sh "git checkout -b release/${newVersion}"
         script.sh "git push origin release/${newVersion}"

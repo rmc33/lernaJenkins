@@ -85,7 +85,7 @@ def runBeforePackagesPipeline(script, branchConfig, config) {
 def runPackagePipeline(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
     script.sh "yarn test"
-    GitUtilities.releaseVersion(script, config.credentialsId)
+    GitUtilities.releaseVersion(script, config.credentialsId, null)
     script.sh "yarn publish"
     script.sh "yarn deploy"
 }
