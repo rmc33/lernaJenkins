@@ -8,16 +8,20 @@ def runBeforePackagesPipeline(script, branchConfig, config) {
 
 def runPackagePipeline(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
-    GitUtilities.releaseVersion(script, config.credentialsId, [gitTagVersion: false, versionTagPrefix: ""])
+    withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: config.credentialsPw, usernameVariable: config.credentialsUser)]) {
+        GitUtilities.releaseVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
+    }
 }
 
 def runAfterPackagesPipeline(script, branchConfig, config) {
     script.echo "create release after develop build"
     //bump up repo version get user input for version number
-    def newVersion = GitUtilities.releaseVersion(script, config.credentialsId, null)
-    if (newVersion) {
-        script.sh "git checkout -b release/${newVersion}"
-        script.sh "git push origin release/${newVersion}"
+    withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: config.credentialsPw, usernameVariable: config.credentialsUser)]) {
+        def newVersion = GitUtilities.releaseVersion(script, null)
+        if (newVersion) {
+            script.sh "git checkout -b release/${newVersion}"
+            script.sh "git push origin release/${newVersion}"
+        }
     }
 }
 

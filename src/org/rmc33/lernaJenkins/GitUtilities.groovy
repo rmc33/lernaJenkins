@@ -12,32 +12,30 @@ class GitUtilities {
         List<String> files = Arrays.asList(diffFilesList.split("\\n"))
     }
 
-    static def releaseVersion(script, credentialsId, tagConfig) {
-        withCredentials([usernamePassword(credentialsId: credentialsId)]) {
-            def version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
-            def name = script.sh (script: "node -p -e \"require('./package.json').name\"", returnStdout: true)
-            def RELEASE_VERSION = script.input message: "Current version for ${name} is ${version}. Cut Release:",
-                    parameters: [script.choice(name: 'RELEASE_VERSION', choices: 'patch\nminor\nmajor\nskip', description: 'What is the release version?')]
+    static def releaseVersion(script, tagConfig) {
+        def version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
+        def name = script.sh (script: "node -p -e \"require('./package.json').name\"", returnStdout: true)
+        def RELEASE_VERSION = script.input message: "Current version for ${name} is ${version}. Cut Release:",
+                parameters: [script.choice(name: 'RELEASE_VERSION', choices: 'patch\nminor\nmajor\nskip', description: 'What is the release version?')]
 
-            if (RELEASE_VERSION == 'skip') return false
+        if (RELEASE_VERSION == 'skip') return false
 
-            def noTagFlag = ''
+        def noTagFlag = ''
 
-            if (tagConfig) {
-                tagConfig.gitTagVersion ? '' : '--no-git-tag-version'
-                if (tagConfig.versionTagPrefix) {
-                    script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
-                }
-                if (tagConfig.versionGitMesage) {
-                    script.sh "yarn config set version-git-message '${tagConfig.versionGitMesage}'"
-                }
+        if (tagConfig) {
+            tagConfig.gitTagVersion ? '' : '--no-git-tag-version'
+            if (tagConfig.versionTagPrefix) {
+                script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
             }
-
-            script.sh "yarn version {$noTagFlag} --new-version ${RELEASE_VERSION}"
-            script.sh "git push ${pushUrl}"
-            version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
-            script.echo "new version is ${version}"
-            return version
+            if (tagConfig.versionGitMesage) {
+                script.sh "yarn config set version-git-message '${tagConfig.versionGitMesage}'"
+            }
         }
+
+        script.sh "yarn version {$noTagFlag} --new-version ${RELEASE_VERSION}"
+        script.sh "git push ${pushUrl}"
+        version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
+        script.echo "new version is ${version}"
+        return version
     }
 }
