@@ -1,6 +1,6 @@
 #!groovy?
 echo "startLernaPipeline start..."
-
+print env
 node {
     startLernaPipeline {
         branchMapping = [
