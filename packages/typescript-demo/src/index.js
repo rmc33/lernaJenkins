@@ -48,3 +48,14 @@ var FoodTruck = /** @class */ (function (_super) {
 // new instance of the FoodTruck:
 var truck = new FoodTruck("Dave's Doritos", "junk");
 console.log(truck.greet());
+var Cookie = /** @class */ (function () {
+    function Cookie() {
+    }
+    Cookie.prototype.isCrunchy = function () {
+        return true;
+    };
+    Cookie.prototype.isFluffy = function () {
+        return false;
+    };
+    return Cookie;
+}());

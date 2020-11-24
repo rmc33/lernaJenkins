@@ -1,7 +1,7 @@
 #!groovy?
 echo "startLernaPipeline start..."
-
 node {
+    sh 'printenv'
     startLernaPipeline {
         branchMapping = [
             "feature": [path: "jenkins-pipelines/pull-request-pipeline.groovy", since: "remotes/origin/develop"],

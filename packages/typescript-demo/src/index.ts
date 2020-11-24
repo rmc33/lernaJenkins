@@ -39,13 +39,25 @@ class Vendor {
       return "Hi, welcome to food truck " + this.name + ". We serve " + this.cuisine + " food.";
     }
   }
-  
+
+  // Correctly passing in two arguments will let you create a
+  // new instance of the FoodTruck:
+  const truck = new FoodTruck("Dave's Doritos", "junk");
+  console.log(truck.greet());
+
   interface Eatable {
     isCrunchy: () => boolean;
     isFluffy: () => boolean;
   }
-  // Correctly passing in two arguments will let you create a
-  // new instance of the FoodTruck:
-  
-  const truck = new FoodTruck("Dave's Doritos", "junk");
-  console.log(truck.greet());
+
+  class Cookie implements Eatable {
+
+    isCrunchy() {
+        return true;
+    }
+
+    isFluffy() {
+        return false;
+    }
+
+  }
