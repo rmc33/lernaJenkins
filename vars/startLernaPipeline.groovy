@@ -1,13 +1,5 @@
 import org.rmc33.lernaJenkins.LernaUtilities
 
-def listChangedPackages(steps, branchConfig, config) {
-    steps.echo "getChangedPackages"
-    if (branchConfig.listAll) {
-        return LernaUtilities.listAllPackages(steps)
-    }
-    return LernaUtilities.listChangedPackages(steps, branchConfig.since)
-}
-
 def call(closure) {
     def config = [:]
     def scriptPath
@@ -61,7 +53,8 @@ def call(closure) {
     }
 
     stage("Running branch pipeline method for changed packages") {
-        changedPackages = listChangedPackages(this, branchConfig, config)
+        changedPackages = LernaUtilities.listChangedPackages(this, branchConfig)
+        println "changedPackages = ${changedPackages}"
         changedPackages.each { p ->
             dir("${p.location}") {
                 pipeline.runPackagePipeline(this, p, branchConfig, config)
