@@ -1,7 +1,6 @@
 #!groovy?
 echo "startLernaPipeline start..."
 node {
-    sh 'printenv'
     startLernaPipeline {
         branchMapping = [
             "feature": [path: "jenkins-pipelines/pull-request-pipeline.groovy", since: "remotes/origin/develop"],
@@ -11,8 +10,6 @@ node {
             "release": [path: "jenkins-pipelines/release-pipeline.groovy", since: "remotes/origin/master"]
         ]
         credentialsId = 'GITHUB_ID'
-        credentialsPw = 'GIT_PASSWORD'
-        credentialsUser = 'GIT_USERNAME'
         gitUrl = 'https://github.com/rmc33/lernaJenkins.git'
         nodeJsHome = '/usr/local'
     }

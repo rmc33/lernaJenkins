@@ -14,15 +14,16 @@ Jenkins shared library for executing branch specific scripted pipelines for lern
 node {
     startLernaPipeline {
         branchMapping = [
-            "feature": [path: "jenkins/pull-request-pipeline.groovy"],
-            "develop": [path: "jenkins/develop-pipeline.groovy"],
-            "hotfix": [path: "jenkins/hotfix-pipeline.groovy"],
-            "master": [path: "jenkins/master-pipeline.groovy"],
-            "release": [path: "jenkins/release-pipeline.groovy"]
+            "feature": [path: "jenkins-pipelines/pull-request-pipeline.groovy", since: "remotes/origin/develop"],
+            "develop": [path: "jenkins-pipelines/develop-pipeline.groovy", since: "remotes/origin/master"],
+            "hotfix": [path: "jenkins-pipelines/hotfix-pipeline.groovy", since: "remotes/origin/master"],
+            "master": [path: "jenkins-pipelines/master-pipeline.groovy", listAll: true],
+            "release": [path: "jenkins-pipelines/release-pipeline.groovy", since: "remotes/origin/master"]
         ]
-        credentialsId = 'GITHUB_ID'
-        gitUrl = 'https://github.com/your git hub'
-        nodeJsHome = '/usr/local'
+        credentialsId = 'GITHUB_ID' //required jenkins git credential id
+        examplePipelineProp = 'Property value' //example passing a custom property to the pipeline config
+        gitUrl = 'https://github.com/rmc33/lernaJenkins.git' //required git repo url
+        nodeJsHome = '/usr/local' //optional path to node
     }
 }
 ```
@@ -31,7 +32,7 @@ Or use default pipeline script for all branches
 
 ```
 node {
-    startLernaPipeline
+    startLernaPipeline {
         branchMapping = [
             "default": [path: "jenkins/pipeline.groovy"]
         ]
@@ -96,6 +97,3 @@ def runAfterPackagesPipeline(script, branchConfig, config) {
 
 return this;
 ```
-
-
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)

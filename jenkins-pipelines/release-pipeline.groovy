@@ -12,7 +12,7 @@ def runPackagePipeline(script, packageProperties, branchConfig, config) {
 def runAfterPackagesPipeline(script, branchConfig, config) {
     //merge to master
     script.input message: 'Approve Merge to maser?', ok: 'Yes'
-    withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: config.credentialsPw, usernameVariable: config.credentialsUser)]) {
+    withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
         script.sh "git fetch"
         script.sh "git checkout master"
         script.sh "git merge remotes/origin/${env.BRANCH_NAME}"
