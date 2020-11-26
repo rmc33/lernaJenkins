@@ -42,13 +42,17 @@ node {
 }
 ```
 
+
 * branchMapping is a Map with keys representing a string to match the beginning of the branch name. The values should be an object with the following properties:
 
 ```
 path - the path to the pipeline script (required)
-since - the branch to compare with to determine changed packages. Translates to running the lerna ls -since $since command. Leaving this out will result in using the lerna changed command. (optional)
+since - the branch to compare with to determine changed packages. Translates to running the lerna ls -since $since command. By default the lerna changed command will be used. (optional)
 listAll - indicates that all packages should be listed when determining changed packages. (optional)
 ```
+
+* By default startLernaPipeline will use https://github.com/lerna/lerna/tree/main/commands/changed#readme
+* If since is defined, the value will be used in lerna ls --since https://www.npmjs.com/package/@lerna/filter-options
 
 * Create directory in lerna repo for pipeline script/s.
 
