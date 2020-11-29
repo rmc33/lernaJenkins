@@ -1,15 +1,15 @@
 
-def runBeforePackagesPipeline(script, branchConiig, config) {
+def runBeforePackagesBuild(script, branchConiig, config) {
     steps.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties, branchConfig, config) {
+def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
     //scan package
     //deploy or publish RC package
 }
 
-def runAfterPackagesPipeline(script, branchConfig, config) {
+def runAfterPackagesBuild(script, branchConfig, config) {
     //merge to master
     script.input message: 'Approve Merge to maser?', ok: 'Yes'
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {

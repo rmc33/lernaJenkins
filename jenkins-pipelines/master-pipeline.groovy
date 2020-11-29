@@ -1,16 +1,16 @@
 
 
-def runBeforePackagesPipeline(script, branchConfig, config) {
+def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "git checkout master"
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties, branchConfig, config) {
+def runPackageBuild(script, packageProperties, branchConfig, config) {
     def packageName = packageProperties.name
     script.echo "runPipeline ${packageName}"
 }
 
-def runAfterPackagesPipeline(script, branchConfig, config) {
+def runAfterPackagesBuild(script, branchConfig, config) {
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
         def releaseVersion = steps.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
         script.sh "git tag $releaseVersion"

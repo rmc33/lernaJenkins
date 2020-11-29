@@ -70,10 +70,9 @@ listAll - indicates that all packages should be listed when determining changed 
 
 lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order:
 
-* runBeforePackagesPipeline - runs at workspace directory before getting changed packages
-* runPackagePipeline - runs at package location directory for each changed package
-* runAfterPackagesPipeline - runs at workspace directory after all changed packages have completed
-
+* runBeforePackagesBuild - runs at workspace directory before getting changed packages
+* runPackageBuild - runs at package location directory for each changed package
+* runAfterPackagesBuild - runs at workspace directory after all changed packages have completed
 
 ## Pipeline script
 
@@ -83,11 +82,11 @@ Example pipeline:
 
 ```
 
-def runBeforePackagesPipeline(script, branchConfig, config) {
+def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties, branchConfig, config) {
+def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
     script.sh "yarn test"
     GitUtilities.releaseVersion(script, config.credentialsId, null)
@@ -95,7 +94,7 @@ def runPackagePipeline(script, packageProperties, branchConfig, config) {
     script.sh "yarn deploy"
 }
 
-def runAfterPackagesPipeline(script, branchConfig, config) {
+def runAfterPackagesBuild(script, branchConfig, config) {
     script.echo "pipeline finished successfully"
 }
 

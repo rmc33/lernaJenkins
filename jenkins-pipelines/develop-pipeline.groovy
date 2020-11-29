@@ -1,19 +1,19 @@
 import org.rmc33.lernaJenkins.YarnUtilities
 
 
-def runBeforePackagesPipeline(script, branchConfig, config) {
+def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "git checkout develop"
     script.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties, branchConfig, config) {
+def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
         YarnUtilities.updateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
     }
 }
 
-def runAfterPackagesPipeline(script, branchConfig, config) {
+def runAfterPackagesBuild(script, branchConfig, config) {
     script.echo "create release after develop build"
     //bump up repo version get user input for version number
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
