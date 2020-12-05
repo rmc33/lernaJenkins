@@ -1,16 +1,16 @@
 
 
-def runBeforePackagesPipeline(script, branchConfig, config) {
+def runBeforePackagesBuild(script, branchConfig, config) {
     steps.sh "yarn"
 }
 
-def runPackagePipeline(script, packageProperties, branchConfig, config) {
+def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
     //scan package
     //test package
 }
 
-def runAfterPackagesPipeline(script, branchConfig, config) {
+def runAfterPackagesBuild(script, branchConfig, config) {
     //functional test all packages
 }
 

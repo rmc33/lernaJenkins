@@ -49,7 +49,7 @@ def call(closure) {
     }
 
     stage("Running branch pipeline before packages method") {
-        pipeline.runBeforePackagesPipeline(this, branchConfig, config)
+        pipeline.runBeforePackagesBuild(this, branchConfig, config)
     }
 
     stage("Running branch pipeline method for changed packages") {
@@ -57,13 +57,13 @@ def call(closure) {
         println "changedPackages = ${changedPackages}"
         changedPackages.each { p ->
             dir("${p.location}") {
-                pipeline.runPackagePipeline(this, p, branchConfig, config)
+                pipeline.runPackageBuild(this, p, branchConfig, config)
             }
         }
     }
 
     stage("Running branch pipeline after packages method") {
-        pipeline.runAfterPackagesPipeline(this, branchConfig, config)
+        pipeline.runAfterPackagesBuild(this, branchConfig, config)
     }
 
 }
