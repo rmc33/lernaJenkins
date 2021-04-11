@@ -1,5 +1,4 @@
 import org.rmc33.lernaJenkins.YarnUtilities
-import org.rmc33.lernaJenkins.LernaUtilities
 
 def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "yarn"
@@ -17,10 +16,6 @@ def runAfterPackagesBuild(script, branchConfig, config) {
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
         YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""])
     }
-}
-
-def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
-    println "runAfterPackageBuild"
 }
 
 return this;

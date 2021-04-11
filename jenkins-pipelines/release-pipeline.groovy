@@ -1,4 +1,7 @@
 
+import org.rmc33.lernaJenkins.LernaUtilities
+import org.rmc33.lernaJenkins.YarnUtilities
+
 def runBeforePackagesBuild(script, branchConfig, config) {
     steps.sh "yarn"
     steps.sh "lerna bootstrap"
@@ -9,7 +12,8 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
     //build package
     script.sh "yarn build"
     script.sh "yarn test"
-    //update package version(s)
+
+    //update package versions
     if (LernaUtilities.isIndependentVersioning(script, config)) {
         //ask to update develop version of each package for next release
         withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
@@ -20,7 +24,6 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
         //update all packages with root version if not independent versioning
         script.sh "yarn version --new-version ${LernaUtilities.getRootVersion(script, config)}"
     }
-    //deploy...
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
