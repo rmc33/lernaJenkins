@@ -30,12 +30,13 @@ class YarnUtilities {
         return version
     }
 
-    static def inputToCreateReleaseBranch(script) {
+    static def inputToCreateReleaseBranch(script, tagConfig) {
         def version = getVersion()
         def choice = script.input message: "Create release/${version} ?",
                 parameters: [script.choice(name: 'RELEASE_VERSION', choices: 'yes\nno', description: 'make new release version?')]
 
         if (choice == 'yes') {
+            inputToUpdateVersion(script, tagConfig)
             script.sh "git checkout -b release/${version}"
             script.sh "git push origin release/${version}"
         }

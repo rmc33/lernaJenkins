@@ -17,11 +17,10 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
-    script.echo "create release after develop build"
+    script.echo "update root version with release version create release after develop build, "
     //ask to create new release branch for all new package changes (uses root package.jon)
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
-        YarnUtilities.inputToCreateReleaseBranch(script)
+        YarnUtilities.inputToCreateReleaseBranch(script, [gitTagVersion: false, versionTagPrefix: ""])
     }
 }
 
