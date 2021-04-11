@@ -3,7 +3,7 @@ package org.rmc33.lernaJenkins
 
 class YarnUtilities {
 
-    static def inputToUpdatePackageVersion(script, tagConfig) {
+    static def inputToUpdateVersion(script, tagConfig) {
         def version = getVersion()
         def name = script.sh (script: "node -p -e \"require('./package.json').name\"", returnStdout: true)
         def RELEASE_VERSION = script.input message: "Current version for ${packageName} is ${version}.",
