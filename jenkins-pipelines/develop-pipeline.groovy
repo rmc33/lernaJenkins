@@ -21,18 +21,6 @@ def runAfterPackagesBuild(script, branchConfig, config) {
 
 def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
     println "runAfterPackageBuild"
-    if (config.releaseVersion) {
-        if (LernaUtilities.isIndependentVersioning(script, config)) {
-            //ask to update develop version of each package for next release
-            withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-                YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
-            }
-        }
-        else {
-            //update all packages with new version if not independent versioning
-            script.sh "lerna version -y ${config.releaseVersion}"
-        }
-    }
 }
 
 return this;

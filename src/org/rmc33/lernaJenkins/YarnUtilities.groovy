@@ -14,7 +14,6 @@ class YarnUtilities {
         def noTagFlag = ''
 
         if (tagConfig) {
-            tagConfig.gitTagVersion ? '' : '--no-git-tag-version'
             if (tagConfig.versionTagPrefix) {
                 script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
             }
@@ -22,11 +21,14 @@ class YarnUtilities {
                 script.sh "yarn config set version-git-message '${tagConfig.versionGitMesage}'"
             }
         }
+        else {
+            noTagFlag = '--no-git-tag-version'
+        }
 
         script.sh "yarn version {$noTagFlag} --new-version ${RELEASE_VERSION}"
         script.sh "git push origin"
         version = getVersion()
-        script.echo "new version is ${version}"
+        println "new version is ${version}"
         return version
     }
 
@@ -40,7 +42,6 @@ class YarnUtilities {
             script.sh "git checkout -b release/${version}"
             script.sh "git push origin release/${version}"
             script.sh "git checkout ${config.branchName}"
-            config.releaseVersion = newVersion
         }
     }
 

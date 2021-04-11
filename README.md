@@ -105,3 +105,5 @@ def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
 
 return this;
 ```
+
+See example pipelines in jenkins-pipelines to see an example of using jenkins input to ask the user for the new version

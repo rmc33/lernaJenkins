@@ -39,4 +39,11 @@ class LernaUtilities {
         }
         return false
     }
+
+    static def getRootVersion(script, config) {
+        script.dir(config.rootPath) {
+            def version = script.sh (script: "node -p -e \"require('./package.json').version\"", returnStdout: true)
+            return version
+        }
+    }
 }

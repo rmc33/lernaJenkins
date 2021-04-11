@@ -8,8 +8,19 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
     println "runPipeline ${packageProperties.name}"
     //build package
     script.sh "yarn build"
-    //scan package
-    //deploy or publish package
+    script.sh "yarn test"
+    //update package version(s)
+    if (LernaUtilities.isIndependentVersioning(script, config)) {
+        //ask to update develop version of each package for next release
+        withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
+            YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: true, versionTagPrefix: ""])
+        }
+    }
+    else {
+        //update all packages with root version if not independent versioning
+        script.sh "yarn version --new-version ${LernaUtilities.getRootVersion(script, config)}"
+    }
+    //deploy...
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
