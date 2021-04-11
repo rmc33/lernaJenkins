@@ -97,7 +97,11 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
 def runAfterPackagesBuild(script, branchConfig, config) {
     script.sh "lerna version -y --conventional-commit --create-release github"
     script.sh "lerna publish -y from-package"
-    script.echo "pipeline finished successfully"
+    println "pipeline finished successfully"
+}
+
+def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
+    println "runAfterPackageBuild"
 }
 
 return this;
