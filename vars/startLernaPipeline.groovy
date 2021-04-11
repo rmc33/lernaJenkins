@@ -41,6 +41,10 @@ def call(closure) {
         env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     }
 
+    if (!config.rootPath) {
+        config.rootPath = pwd()
+    }
+
     stage("Cloning repo") {
         deleteDir()
         checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
@@ -58,7 +62,7 @@ def call(closure) {
     }
 
     stage("Running runPackageBuild(s)") {
-        changedPackages.each { p ->
+        config.changedPackages.each { p ->
             dir("${p.location}") {
                 pipeline.runPackageBuild(this, p, branchConfig, config)
             }

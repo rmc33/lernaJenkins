@@ -7,20 +7,21 @@ def runBeforePackagesBuild(script, branchConfig, config) {
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    script.echo "runPipeline ${packageProperties.name}"
+    println "runPipeline ${packageProperties.name}"
     script.sh "yarn build"
     //ask to update develop version of package
-    if (LernaUtilities.isIndependentVersioning(script, '../../')) {
+    if (LernaUtilities.isIndependentVersioning(script, config)) {
         withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
+            YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
+        }
     }
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
-    script.echo "update root version with release version create release after develop build, "
-    //ask to create new release branch for all new package changes (uses root package.jon)
+    println "runAfterPackagesBuild"
+    //update root version and create release branch
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.inputToCreateReleaseBranch(script, [gitTagVersion: false, versionTagPrefix: ""])
+        YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""], "")
     }
 }
 

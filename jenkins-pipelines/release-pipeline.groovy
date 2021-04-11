@@ -5,7 +5,7 @@ def runBeforePackagesBuild(script, branchConfig, config) {
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    script.echo "runPipeline ${packageProperties.name}"
+    println "runPipeline ${packageProperties.name}"
     //build package
     script.sh "yarn build"
     //scan package

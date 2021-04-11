@@ -84,17 +84,18 @@ Example pipeline:
 
 def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "yarn"
+    script.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
+    script.sh "yarn build"
     script.sh "yarn test"
-    GitUtilities.releaseVersion(script, config.credentialsId, null)
-    script.sh "yarn publish"
-    script.sh "yarn deploy"
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
+    script.sh "lerna version -y --conventional-commit --create-release github"
+    script.sh "lerna publish -y from-package"
     script.echo "pipeline finished successfully"
 }
 
