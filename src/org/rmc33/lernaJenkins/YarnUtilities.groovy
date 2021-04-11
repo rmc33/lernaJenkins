@@ -30,19 +30,17 @@ class YarnUtilities {
         return version
     }
 
-    static def inputToCreateReleaseBranch(script, config, tagConfig, versionConfig) {
+    static def inputToCreateReleaseBranch(script, config, tagConfig) {
         def version = getVersion()
         def choice = script.input message: "Create release/${version} ?",
                 parameters: [script.choice(name: 'RELEASE_VERSION', choices: 'yes\nno', description: 'make new release version?')]
 
         if (choice == 'yes') {
             def newVersion = inputToUpdateVersion(script, tagConfig)
-            //update all packages with new version if not independent versioning
-            if (!lernaJenkins.isIndependentVersioning(script, config)) {
-                script.sh "lerna version -y ${newVersion} ${versionConfig}"
-            }
             script.sh "git checkout -b release/${version}"
             script.sh "git push origin release/${version}"
+            script.sh "git checkout ${config.branchName}"
+            config.releaseVersion = newVersion
         }
     }
 

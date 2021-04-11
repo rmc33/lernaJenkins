@@ -44,6 +44,8 @@ def call(closure) {
     if (!config.rootPath) {
         config.rootPath = pwd()
     }
+    
+    config.branchName = branchName
 
     stage("Cloning repo") {
         deleteDir()
@@ -58,19 +60,35 @@ def call(closure) {
     }
 
     stage("Running runBeforePackagesBuild") {
-        pipeline.runBeforePackagesBuild(this, branchConfig, config)
+        if (pipeline.runBeforePackagesBuild) {
+            pipeline.runBeforePackagesBuild(this, branchConfig, config)
+        }
     }
 
     stage("Running runPackageBuild(s)") {
         config.changedPackages.each { p ->
             dir("${p.location}") {
-                pipeline.runPackageBuild(this, p, branchConfig, config)
+                if (pipeline.runPackageBuild) {
+                    pipeline.runPackageBuild(this, p, branchConfig, config)
+                }
             }
         }
     }
 
     stage("Running runAfterPackagesBuild") {
-        pipeline.runAfterPackagesBuild(this, branchConfig, config)
+        if (pipeline.runAfterPackagesBuild) {
+            pipeline.runAfterPackagesBuild(this, branchConfig, config)
+        }
+    }
+
+    stage("Running runAfterPackageBuild") {
+        config.changedPackages.each { p ->
+            dir("${p.location}") {
+                if (pipeline.runAfterPackageBuild) {
+                    pipeline.runAfterPackageBuild(this, p, branchConfig, config)
+                }
+            }
+        }
     }
 
 }

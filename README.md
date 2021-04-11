@@ -68,11 +68,12 @@ listAll - indicates that all packages should be listed when determining changed 
 
 ## Branch pipeline lifecycle methods
 
-lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order:
+lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order if defined:
 
 * runBeforePackagesBuild - runs at workspace directory before getting changed packages
 * runPackageBuild - runs at package location directory for each changed package
 * runAfterPackagesBuild - runs at workspace directory after all changed packages have completed
+* runAfterPackageBuild - runs at package location directory for each changed package
 
 ## Pipeline script
 

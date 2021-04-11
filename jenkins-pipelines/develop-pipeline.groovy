@@ -9,19 +9,29 @@ def runBeforePackagesBuild(script, branchConfig, config) {
 def runPackageBuild(script, packageProperties, branchConfig, config) {
     println "runPipeline ${packageProperties.name}"
     script.sh "yarn build"
-    //ask to update develop version of package
-    if (LernaUtilities.isIndependentVersioning(script, config)) {
-        withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-            YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
-        }
-    }
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
     println "runAfterPackagesBuild"
-    //update root version and create release branch
+    //ask to update root version and create release branch
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""], "")
+        YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""])
+    }
+}
+
+def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
+    println "runAfterPackageBuild"
+    if (config.releaseVersion) {
+        if (LernaUtilities.isIndependentVersioning(script, config)) {
+            //ask to update develop version of each package for next release
+            withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
+                YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
+            }
+        }
+        else {
+            //update all packages with new version if not independent versioning
+            script.sh "lerna version -y ${config.releaseVersion}"
+        }
     }
 }
 
