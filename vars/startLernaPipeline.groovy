@@ -45,16 +45,19 @@ def call(closure) {
         deleteDir()
         checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
         println "loading repo branch pipeline ${env.WORKSPACE}/${scriptPath}"
+        config.changedPackages = LernaUtilities.listChangedPackages(this, branchConfig)
+        def changedPackageNames = config.changedPackages.each { p ->
+            return p.name
+        }.join(",")
+        println "changedPackageNames = ${changedPackageNames}"
         pipeline = load "${env.WORKSPACE}/${scriptPath}"
     }
 
-    stage("Running branch pipeline before packages method") {
+    stage("Running runBeforePackagesBuild") {
         pipeline.runBeforePackagesBuild(this, branchConfig, config)
     }
 
-    stage("Running branch pipeline method for changed packages") {
-        changedPackages = LernaUtilities.listChangedPackages(this, branchConfig)
-        println "changedPackages = ${changedPackages}"
+    stage("Running runPackageBuild(s)") {
         changedPackages.each { p ->
             dir("${p.location}") {
                 pipeline.runPackageBuild(this, p, branchConfig, config)
@@ -62,7 +65,7 @@ def call(closure) {
         }
     }
 
-    stage("Running branch pipeline after packages method") {
+    stage("Running runAfterPackagesBuild") {
         pipeline.runAfterPackagesBuild(this, branchConfig, config)
     }
 

@@ -30,4 +30,13 @@ class LernaUtilities {
         }
     }
 
+    static def isIndependentVersioning(steps, rootPath) {
+        steps.dir(path) {
+            def version = script.sh (script: "node -p -e \"require('./lerna.json').version\"", returnStdout: true)
+            if (version == 'independent') {
+                return true
+            }
+        }
+        return false
+    }
 }

@@ -1,13 +1,17 @@
 
 
 def runBeforePackagesBuild(script, branchConfig, config) {
-    script.sh "git checkout master"
     script.sh "yarn"
+    steps.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    def packageName = packageProperties.name
-    script.echo "runPipeline ${packageName}"
+    script.echo "runPipeline ${packageProperties.name}"
+    //build package
+    script.sh "yarn build"
+    //test package
+    //scan package
+    //deploy or publish package
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
