@@ -79,7 +79,7 @@ lernaJenkins includes sample branch pipelines. startLernaPipeline will load the 
 
 A Pipeline script should implement the lifecycle methods and end with a return this. You may import any of the org.rmc33.lernaJenkins or other shared library for use in the pipeline.
 
-Example pipeline:
+Example develop pipeline:
 
 ```
 
@@ -96,8 +96,7 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
 
 def runAfterPackagesBuild(script, branchConfig, config) {
     script.sh "lerna version -y --conventional-commit --create-release github"
-    script.sh "lerna publish -y from-package"
-    println "pipeline finished successfully"
+    println "pipeline finished successfully and release branch created"
 }
 
 def runAfterPackageBuild(script, packageProperties, branchConfig, config) {

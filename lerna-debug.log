@@ -19,64 +19,81 @@
 10 silly isBehindUpstream develop is behind origin/develop by 0 commit(s) and ahead by 0
 11 silly hasTags
 12 verbose hasTags true
-13 silly git-describe.sync "56f4753" => {"refCount":"252","sha":"56f4753","isDirty":false}
-14 info Assuming all packages changed
-15 verbose updated typescript-demo
-16 verbose updated webpack-demo
-17 verbose git-describe undefined => "56f4753"
-18 silly git-describe parsed => {"refCount":"252","sha":"56f4753","isDirty":false}
-19 silly independent for typescript-demo at /Users/rc/workspace/lernaJenkins/packages/typescript-demo
-20 verbose getChangelogConfig using preset "conventional-changelog-angular"
-21 silly npa Result {
-21 silly npa   type: 'tag',
-21 silly npa   registry: true,
-21 silly npa   where: undefined,
-21 silly npa   raw: 'conventional-changelog-angular',
-21 silly npa   name: 'conventional-changelog-angular',
-21 silly npa   escapedName: 'conventional-changelog-angular',
-21 silly npa   scope: undefined,
-21 silly npa   rawSpec: '',
-21 silly npa   saveSpec: null,
-21 silly npa   fetchSpec: 'latest',
-21 silly npa   gitRange: undefined,
-21 silly npa   gitCommittish: undefined,
-21 silly npa   hosted: undefined }
-22 verbose getChangelogConfig Attempting to resolve preset "conventional-changelog-angular"
-23 info getChangelogConfig Successfully resolved preset "conventional-changelog-angular"
-24 verbose independent increment 1.1.1 by patch
-25 silly independent for webpack-demo at /Users/rc/workspace/lernaJenkins/packages/webpack-demo
-26 verbose independent increment 1.0.4 by patch
-27 info auto-confirmed
-28 info execute Creating releases...
-29 silly lifecycle No script for "preversion" in "lernaJenkins", continuing
-30 silly lifecycle No script for "preversion" in "typescript-demo", continuing
-31 silly lifecycle No script for "preversion" in "webpack-demo", continuing
-32 silly lifecycle No script for "version" in "typescript-demo", continuing
-33 silly independent for typescript-demo at /Users/rc/workspace/lernaJenkins/packages/typescript-demo
-34 silly lifecycle No script for "version" in "webpack-demo", continuing
-35 silly independent for webpack-demo at /Users/rc/workspace/lernaJenkins/packages/webpack-demo
-36 silly independent writing new entry: "## [1.1.2](https://github.com/rmc33/lernaJenkins/compare/typescript-demo@1.1.1...typescript-demo@1.1.2) (2021-04-11)\n\n**Note:** Version bump only for package typescript-demo\n\n\n\n"
-37 silly independent writing new entry: "## [1.0.5](https://github.com/rmc33/lernaJenkins/compare/webpack-demo@1.0.1...webpack-demo@1.0.5) (2021-04-11)\n\n\n\n## 1.2.10 (2020-10-05)\n\n\n\n## 1.2.9 (2020-10-05)\n\n\n\n## 1.2.8 (2020-10-04)\n\n**Note:** Version bump only for package webpack-demo\n\n\n\n"
-38 verbose independent wrote /Users/rc/workspace/lernaJenkins/packages/typescript-demo/CHANGELOG.md
-39 verbose independent wrote /Users/rc/workspace/lernaJenkins/packages/webpack-demo/CHANGELOG.md
-40 silly lifecycle No script for "version" in "lernaJenkins", continuing
-41 silly gitAdd [ '/Users/rc/workspace/lernaJenkins/packages/typescript-demo/package.json',
-41 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/webpack-demo/package.json',
-41 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/typescript-demo/CHANGELOG.md',
-41 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/webpack-demo/CHANGELOG.md' ]
-42 silly gitCommit Publish
-42 silly gitCommit
-42 silly gitCommit  - typescript-demo@1.1.2
-42 silly gitCommit  - webpack-demo@1.0.5
-43 verbose git [ 'commit',
-43 verbose git   '-F',
-43 verbose git   '/private/var/folders/pm/l93pfbl16k971zvgwy0yd8q00000gn/T/094ff084-c8aa-49b2-ad3b-27514b142c23/lerna-commit.txt' ]
-44 silly gitTag typescript-demo@1.1.2
-45 verbose git [ 'tag', 'typescript-demo@1.1.2', '-m', 'typescript-demo@1.1.2' ]
-46 silly gitTag webpack-demo@1.0.5
-47 verbose git [ 'tag', 'webpack-demo@1.0.5', '-m', 'webpack-demo@1.0.5' ]
-48 error Error: Command failed: git tag typescript-demo@1.1.2 -m typescript-demo@1.1.2
-48 error fatal: tag 'typescript-demo@1.1.2' already exists
-48 error
-48 error     at makeError (/Users/rc/workspace/lernaJenkins/node_modules/execa/index.js:174:9)
-48 error     at Promise.all.then.arr (/Users/rc/workspace/lernaJenkins/node_modules/execa/index.js:278:16)
+13 silly git-describe.sync "webpack-demo@1.0.5-1-gf6b2dd0" => {"lastTagName":"webpack-demo@1.0.5","lastVersion":"1.0.5","refCount":"1","sha":"f6b2dd0","isDirty":false}
+14 info Looking for changed packages since webpack-demo@1.0.5
+15 info ignoring diff in paths matching [ 'ignored-file', '*.md' ]
+16 silly checking diff packages/typescript-demo
+17 silly found diff in packages/typescript-demo/package.json
+18 verbose filtered diff [ 'packages/typescript-demo/package.json' ]
+19 silly checking diff packages/webpack-demo
+20 silly found diff in packages/webpack-demo/package.json
+21 verbose filtered diff [ 'packages/webpack-demo/package.json' ]
+22 verbose updated typescript-demo
+23 verbose updated webpack-demo
+24 verbose git-describe undefined => "webpack-demo@1.0.5-1-gf6b2dd0"
+25 silly git-describe parsed => {"lastTagName":"webpack-demo@1.0.5","lastVersion":"1.0.5","refCount":"1","sha":"f6b2dd0","isDirty":false}
+26 silly independent for typescript-demo at /Users/rc/workspace/lernaJenkins/packages/typescript-demo
+27 verbose getChangelogConfig using preset "conventional-changelog-angular"
+28 silly npa Result {
+28 silly npa   type: 'tag',
+28 silly npa   registry: true,
+28 silly npa   where: undefined,
+28 silly npa   raw: 'conventional-changelog-angular',
+28 silly npa   name: 'conventional-changelog-angular',
+28 silly npa   escapedName: 'conventional-changelog-angular',
+28 silly npa   scope: undefined,
+28 silly npa   rawSpec: '',
+28 silly npa   saveSpec: null,
+28 silly npa   fetchSpec: 'latest',
+28 silly npa   gitRange: undefined,
+28 silly npa   gitCommittish: undefined,
+28 silly npa   hosted: undefined }
+29 verbose getChangelogConfig Attempting to resolve preset "conventional-changelog-angular"
+30 info getChangelogConfig Successfully resolved preset "conventional-changelog-angular"
+31 verbose independent increment 1.1.3 by patch
+32 silly independent for webpack-demo at /Users/rc/workspace/lernaJenkins/packages/webpack-demo
+33 verbose independent increment 1.0.6 by patch
+34 info auto-confirmed
+35 info execute Creating releases...
+36 silly lifecycle No script for "preversion" in "lernaJenkins", continuing
+37 silly lifecycle No script for "preversion" in "typescript-demo", continuing
+38 silly lifecycle No script for "preversion" in "webpack-demo", continuing
+39 silly lifecycle No script for "version" in "webpack-demo", continuing
+40 silly independent for webpack-demo at /Users/rc/workspace/lernaJenkins/packages/webpack-demo
+41 silly lifecycle No script for "version" in "typescript-demo", continuing
+42 silly independent for typescript-demo at /Users/rc/workspace/lernaJenkins/packages/typescript-demo
+43 silly independent writing new entry: "## [1.0.7](https://github.com/rmc33/lernaJenkins/compare/webpack-demo@1.0.5...webpack-demo@1.0.7) (2021-04-11)\n\n**Note:** Version bump only for package webpack-demo\n\n\n\n"
+44 silly independent writing new entry: "## [1.1.4](https://github.com/rmc33/lernaJenkins/compare/typescript-demo@1.1.1...typescript-demo@1.1.4) (2021-04-11)\n\n**Note:** Version bump only for package typescript-demo\n\n\n\n"
+45 verbose independent wrote /Users/rc/workspace/lernaJenkins/packages/webpack-demo/CHANGELOG.md
+46 verbose independent wrote /Users/rc/workspace/lernaJenkins/packages/typescript-demo/CHANGELOG.md
+47 silly lifecycle No script for "version" in "lernaJenkins", continuing
+48 silly gitAdd [ '/Users/rc/workspace/lernaJenkins/packages/webpack-demo/package.json',
+48 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/typescript-demo/package.json',
+48 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/webpack-demo/CHANGELOG.md',
+48 silly gitAdd   '/Users/rc/workspace/lernaJenkins/packages/typescript-demo/CHANGELOG.md' ]
+49 silly gitCommit Publish
+49 silly gitCommit
+49 silly gitCommit  - typescript-demo@1.1.4
+49 silly gitCommit  - webpack-demo@1.0.7
+50 verbose git [ 'commit',
+50 verbose git   '-F',
+50 verbose git   '/private/var/folders/pm/l93pfbl16k971zvgwy0yd8q00000gn/T/55354038-4d48-4ef2-bad9-bc6d1c6ed32b/lerna-commit.txt' ]
+51 silly gitTag typescript-demo@1.1.4
+52 verbose git [ 'tag', 'typescript-demo@1.1.4', '-m', 'typescript-demo@1.1.4' ]
+53 silly gitTag webpack-demo@1.0.7
+54 verbose git [ 'tag', 'webpack-demo@1.0.7', '-m', 'webpack-demo@1.0.7' ]
+55 silly lifecycle No script for "postversion" in "typescript-demo", continuing
+56 silly lifecycle No script for "postversion" in "webpack-demo", continuing
+57 silly lifecycle No script for "postversion" in "lernaJenkins", continuing
+58 info git Pushing tags...
+59 silly gitPush origin develop
+60 silly parseGitRepo
+61 verbose git [ 'config', '--get', 'remote.origin.url' ]
+62 silly createGitHubClient
+63 error Error: A GH_TOKEN environment variable is required.
+63 error     at createGitHubClient (/Users/rc/workspace/lernaJenkins/node_modules/@lerna/github-client/lib/github-client.js:17:11)
+63 error     at createClient (/Users/rc/workspace/lernaJenkins/node_modules/@lerna/version/lib/create-release.js:16:14)
+63 error     at createRelease (/Users/rc/workspace/lernaJenkins/node_modules/@lerna/version/lib/create-release.js:25:18)
+63 error     at tasks.push (/Users/rc/workspace/lernaJenkins/node_modules/@lerna/version/index.js:272:9)
+63 error     at pReduce (/Users/rc/workspace/lernaJenkins/node_modules/p-waterfall/index.js:4:73)
+63 error     at Promise.all.then.value (/Users/rc/workspace/lernaJenkins/node_modules/p-reduce/index.js:16:10)
