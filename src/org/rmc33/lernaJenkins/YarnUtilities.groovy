@@ -1,6 +1,5 @@
 package org.rmc33.lernaJenkins
 
-
 class YarnUtilities {
 
     static def inputToCreateReleaseBranch(script, config, tagConfig) {
@@ -12,7 +11,9 @@ class YarnUtilities {
             script.sh "git checkout -b release/${version}"
             script.sh "git push origin release/${version}"
             script.sh "git checkout ${config.branchName}"
+            return true
         }
+        return false
     }
 
     static def getVersion(script) {
