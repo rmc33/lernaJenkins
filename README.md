@@ -68,35 +68,42 @@ listAll - indicates that all packages should be listed when determining changed 
 
 ## Branch pipeline lifecycle methods
 
-lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order:
+lernaJenkins includes sample branch pipelines. startLernaPipeline will load the pipeline file defined in branchMapping and the lifecycle methods will be called in the following order if defined:
 
 * runBeforePackagesBuild - runs at workspace directory before getting changed packages
 * runPackageBuild - runs at package location directory for each changed package
 * runAfterPackagesBuild - runs at workspace directory after all changed packages have completed
+* runAfterPackageBuild - runs at package location directory for each changed package
 
 ## Pipeline script
 
 A Pipeline script should implement the lifecycle methods and end with a return this. You may import any of the org.rmc33.lernaJenkins or other shared library for use in the pipeline.
 
-Example pipeline:
+Example develop pipeline:
 
 ```
 
 def runBeforePackagesBuild(script, branchConfig, config) {
     script.sh "yarn"
+    script.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
     script.echo "runPipeline ${packageProperties.name}"
+    script.sh "yarn build"
     script.sh "yarn test"
-    GitUtilities.releaseVersion(script, config.credentialsId, null)
-    script.sh "yarn publish"
-    script.sh "yarn deploy"
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
-    script.echo "pipeline finished successfully"
+    script.sh "lerna version -y --conventional-commit --create-release github"
+    println "pipeline finished successfully and release branch created"
+}
+
+def runAfterPackageBuild(script, packageProperties, branchConfig, config) {
+    println "runAfterPackageBuild"
 }
 
 return this;
 ```
+
+See example pipelines in jenkins-pipelines to see an example of using jenkins input to ask the user for the new version

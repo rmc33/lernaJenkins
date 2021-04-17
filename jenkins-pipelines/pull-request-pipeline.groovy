@@ -2,16 +2,16 @@
 
 def runBeforePackagesBuild(script, branchConfig, config) {
     steps.sh "yarn"
+    steps.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    script.echo "runPipeline ${packageProperties.name}"
-    //scan package
+    println "runPipeline ${packageProperties.name}"
+    //build package
+    script.sh "yarn build"
+    script.sh "yarn test"
     //test package
-}
-
-def runAfterPackagesBuild(script, branchConfig, config) {
-    //functional test all packages
+    //scan package
 }
 
 return this;

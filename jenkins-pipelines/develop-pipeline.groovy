@@ -1,26 +1,25 @@
 import org.rmc33.lernaJenkins.YarnUtilities
 
-
 def runBeforePackagesBuild(script, branchConfig, config) {
-    script.sh "git checkout develop"
     script.sh "yarn"
+    script.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    script.echo "runPipeline ${packageProperties.name}"
-    withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.updateVersion(script, [gitTagVersion: false, versionTagPrefix: ""])
-    }
+    println "runPipeline ${packageProperties.name}"
+    script.sh "yarn build"
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
-    script.echo "create release after develop build"
-    //bump up repo version get user input for version number
+    println "runAfterPackagesBuild"
+    //ask to update root version and create release branch
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        def newVersion = YarnUtilities.updateVersion(script, null)
-        if (newVersion) {
-            script.sh "git checkout -b release/${newVersion}"
-            script.sh "git push origin release/${newVersion}"
+        def newDevelopVersion = YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""])
+        if (LernaUtilities.isIndependentVersioning()) {
+            script.sh "lerna version -y --conventional-commit"
+        }
+        else {
+            script.sh "lerna version -y ${newDevelopVersion}"
         }
     }
 }

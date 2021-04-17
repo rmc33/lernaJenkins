@@ -1,19 +1,23 @@
 
-def runBeforePackagesBuild(script, branchConiig, config) {
+import org.rmc33.lernaJenkins.LernaUtilities
+import org.rmc33.lernaJenkins.YarnUtilities
+
+def runBeforePackagesBuild(script, branchConfig, config) {
     steps.sh "yarn"
+    steps.sh "lerna bootstrap"
 }
 
 def runPackageBuild(script, packageProperties, branchConfig, config) {
-    script.echo "runPipeline ${packageProperties.name}"
-    //scan package
-    //deploy or publish RC package
+    println "runPipeline ${packageProperties.name}"
+    //build package
+    script.sh "yarn build"
+    script.sh "yarn test"
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
     //merge to master
     script.input message: 'Approve Merge to maser?', ok: 'Yes'
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        script.sh "git fetch"
         script.sh "git checkout master"
         script.sh "git merge remotes/origin/${env.BRANCH_NAME}"
         script.sh 'git push origin master'

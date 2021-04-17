@@ -28,7 +28,7 @@ var Vendor = /** @class */ (function () {
 // An instance can be created via the new keyword, and
 // you can call methods and access properties from the
 // object.
-var shop = new Vendor("Ye Olde Shop");
+var shop = new Vendor("Ye Olde Test Shop");
 console.log(shop.greet());
 // You can subclass an object. Here's a food cart which
 // has a variety as well as a name:

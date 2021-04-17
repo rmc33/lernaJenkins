@@ -41,29 +41,54 @@ def call(closure) {
         env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
     }
 
+    if (!config.rootPath) {
+        config.rootPath = pwd()
+    }
+    
+    config.branchName = branchName
+
     stage("Cloning repo") {
         deleteDir()
         checkout scm: [$class: 'GitSCM', branches: [[name: branchName]], extensions: [],  userRemoteConfigs: [[credentialsId: config.credentialsId, url: config.gitUrl]]]
         println "loading repo branch pipeline ${env.WORKSPACE}/${scriptPath}"
+        config.changedPackages = LernaUtilities.listChangedPackages(this, branchConfig)
+        def changedPackageNames = config.changedPackages.each { p ->
+            return p.name
+        }.join(",")
+        println "changedPackageNames = ${changedPackageNames}"
         pipeline = load "${env.WORKSPACE}/${scriptPath}"
     }
 
-    stage("Running branch pipeline before packages method") {
-        pipeline.runBeforePackagesBuild(this, branchConfig, config)
+    stage("Running runBeforePackagesBuild") {
+        if (pipeline.runBeforePackagesBuild) {
+            pipeline.runBeforePackagesBuild(this, branchConfig, config)
+        }
     }
 
-    stage("Running branch pipeline method for changed packages") {
-        changedPackages = LernaUtilities.listChangedPackages(this, branchConfig)
-        println "changedPackages = ${changedPackages}"
-        changedPackages.each { p ->
+    stage("Running runPackageBuild(s)") {
+        config.changedPackages.each { p ->
             dir("${p.location}") {
-                pipeline.runPackageBuild(this, p, branchConfig, config)
+                if (pipeline.runPackageBuild) {
+                    pipeline.runPackageBuild(this, p, branchConfig, config)
+                }
             }
         }
     }
 
-    stage("Running branch pipeline after packages method") {
-        pipeline.runAfterPackagesBuild(this, branchConfig, config)
+    stage("Running runAfterPackagesBuild") {
+        if (pipeline.runAfterPackagesBuild) {
+            pipeline.runAfterPackagesBuild(this, branchConfig, config)
+        }
+    }
+
+    stage("Running runAfterPackageBuild") {
+        config.changedPackages.each { p ->
+            dir("${p.location}") {
+                if (pipeline.runAfterPackageBuild) {
+                    pipeline.runAfterPackageBuild(this, p, branchConfig, config)
+                }
+            }
+        }
     }
 
 }
