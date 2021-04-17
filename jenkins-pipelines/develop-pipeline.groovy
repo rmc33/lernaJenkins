@@ -14,7 +14,13 @@ def runAfterPackagesBuild(script, branchConfig, config) {
     println "runAfterPackagesBuild"
     //ask to update root version and create release branch
     withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-        YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""])
+        def newDevelopVersion = YarnUtilities.inputToCreateReleaseBranch(script, config, [gitTagVersion: false, versionTagPrefix: ""])
+        if (LernaUtilities.isIndependentVersioning()) {
+            script.sh "lerna version -y --conventional-commit"
+        }
+        else {
+            script.sh "lerna version -y ${newDevelopVersion}"
+        }
     }
 }
 

@@ -31,11 +31,9 @@ class LernaUtilities {
     }
 
     static def isIndependentVersioning(script, config) {
-        script.dir(config.rootPath) {
-            def version = script.sh (script: "node -p -e \"require('./lerna.json').version\"", returnStdout: true)
-            if (version == 'independent') {
-                return true
-            }
+        def version = script.sh (script: "node -p -e \"require('./lerna.json').version\"", returnStdout: true)
+        if (version == 'independent') {
+            return true
         }
         return false
     }
@@ -46,4 +44,33 @@ class LernaUtilities {
             return version
         }
     }
+
+    static def inputToUpdateVersion(script, tagConfig) {
+        def version = getVersion()
+        def name = script.sh (script: "node -p -e \"require('./package.json').name\"", returnStdout: true)
+        def semVerKeyword = script.input message: "Current version for ${packageName} is ${version}.",
+                parameters: [script.choice(name: 'NEW_VERSION', choices: 'patch\nminor\nmajor\nskip', description: 'What is the next develop version?')]
+
+        if (semVerKeyword == 'skip') return false
+
+        def noTagFlag = ''
+
+        if (tagConfig) {
+            if (tagConfig.versionTagPrefix) {
+                script.sh "yarn config set version-tag-prefix '${tagConfig.versionTagPrefix}'"
+            }
+            if (tagConfig.versionGitMesage) {
+                script.sh "yarn config set version-git-message '${tagConfig.versionGitMesage}'"
+            }
+        }
+        else {
+            noTagFlag = '--no-git-tag-version'
+        }
+
+        script.sh "lerna version ${semVerKeyword} -y {$noTagFlag} "
+        version = getVersion()
+        println "new version is ${version}"
+        return version
+    }
+
 }

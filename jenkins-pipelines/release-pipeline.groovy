@@ -12,18 +12,6 @@ def runPackageBuild(script, packageProperties, branchConfig, config) {
     //build package
     script.sh "yarn build"
     script.sh "yarn test"
-
-    //update package versions
-    if (LernaUtilities.isIndependentVersioning(script, config)) {
-        //ask to update develop version of each package for next release
-        withCredentials([usernamePassword(credentialsId: config.credentialsId, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USER')]) {
-            YarnUtilities.inputToUpdateVersion(script, [gitTagVersion: true, versionTagPrefix: ""])
-        }
-    }
-    else {
-        //update all packages with root version if not independent versioning
-        script.sh "yarn version --new-version ${LernaUtilities.getRootVersion(script, config)}"
-    }
 }
 
 def runAfterPackagesBuild(script, branchConfig, config) {
