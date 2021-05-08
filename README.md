@@ -58,7 +58,7 @@ listAll - indicates that all packages should be listed when determining changed 
 
 ```
 (root)
-+- Jenkinsfile           # Jenkinsfile in repo to call startPackagePipeline
++- Jenkinsfile           # Jenkinsfile in repo to call startLernaPipeline
 +- jenkins-pipelines               # directory for pipeline scripts called by startLernaPipeline
 |   +- develop-pipeline.groovy
 |   +- master-pipeline.groovy
